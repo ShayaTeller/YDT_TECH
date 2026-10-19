@@ -332,13 +332,13 @@ class App extends Component {
     if (isLive) boardStyle = 'border: 1px solid ' + accent + '; box-shadow: 0 20px 80px ' + accent + '18;';
 
     const services = [
-      { num: '01', title: 'אתרי תדמית', desc: 'הכרטיס הדיגיטלי של העסק: מי אתם, מה אתם מציעים ואיך פונים אליכם.' },
-      { num: '02', title: 'חנויות אונליין', desc: 'קטלוג, סל קניות ותשלום מאובטח – מוכרים גם כשהחנות סגורה.' },
-      { num: '03', title: 'מערכות Web בהתאמה אישית', desc: 'פורטלים, מערכות ניהול ופלטפורמות SaaS שנבנות מאפס סביב תהליכי העבודה של העסק.' },
-      { num: '04', title: 'מערכות CRM לניהול לקוחות', desc: 'כל לקוח, כל פנייה וכל עסקה במקום אחד – ואף פנייה לא הולכת לאיבוד.' },
-      { num: '05', title: 'אוטומציות עסקיות', desc: 'משימות שחוזרות על עצמן מתבצעות מעצמן, בלי עבודה ידנית.' },
-      { num: '06', title: 'מיילים ותזכורות אוטומטיים', desc: 'אישורים, תזכורות ומעקב אחר לקוחות – נשלחים בזמן, בכל פעם.' },
-      { num: '07', title: 'טפסים דיגיטליים מורכבים', desc: 'טפסים רב־שלביים עם שדות מותנים, חתימה דיגיטלית, העלאת קבצים וחיבור ישיר למערכת.' }
+      { num: '01', title: 'אתרי תדמית', desc: 'הרושם הראשון של העסק שלכם, מעוצב כדי להפוך גולשים ללקוחות.' },
+      { num: '02', title: 'חנויות אונליין', desc: 'חנות שמוכרת 24/7: קטלוג חכם, תשלום מאובטח וניהול הזמנות פשוט.' },
+      { num: '03', title: 'מערכות Web בהתאמה אישית', desc: 'פורטלים ומערכות ניהול שנבנים מאפס סביב הדרך שבה העסק שלכם עובד – ולא להפך.' },
+      { num: '04', title: 'מערכות CRM לניהול לקוחות', desc: 'כל ליד, כל שיחה וכל עסקה במקום אחד. אף לקוח לא נופל בין הכיסאות.' },
+      { num: '05', title: 'אוטומציות עסקיות', desc: 'העבודה השחורה עוברת למכונה, ואתם מתפנים לנהל את העסק.' },
+      { num: '06', title: 'מיילים ותזכורות אוטומטיים', desc: 'אישורים, תזכורות ומעקב שנשלחים בדיוק בזמן – בלי שתצטרכו לזכור.' },
+      { num: '07', title: 'טפסים דיגיטליים מורכבים', desc: 'טפסים רב־שלביים עם לוגיקה מותנית, חתימה דיגיטלית והעלאת קבצים – ישר אל תוך המערכת.' }
     ].map((sv, i) => Object.assign({}, sv, { delay: 'transition-delay: ' + (i * 70) + 'ms;' }));
 
     const simSummary = isRun ? (BIZ[s.biz] + ' · ' + selected.map((n) => n.label).join(', ')) : '';
@@ -501,7 +501,7 @@ ${v.words.map((w) => html`
 `)}
 </div>
 </div>
-<p style="margin: 0; font-size: clamp(16px, 1.4vw, 18px); line-height: 1.65; color: #A3A8B8; max-width: 620px">מאתר תדמית ועד מערכת מלאה לניהול לקוחות ואוטומציות: מאפיינים יחד, אני מפתח, והכול עולה לענן.</p>
+<p style="margin: 0; font-size: clamp(16px, 1.4vw, 18px); line-height: 1.65; color: #A3A8B8; max-width: 620px">העסק שלכם עובד קשה. הגיע הזמן שגם המערכות שלו יעבדו. אני מאפיין, מפתח ומעלה לענן פתרונות שחוסכים זמן, מביאים לקוחות ומגדילים הכנסות.</p>
 
 
 <div class="ydtfloat" style="perspective: 1200px; width: 100%; display: flex; justify-content: center; padding: 26px 0 6px">
@@ -520,8 +520,8 @@ ${v.flyers.map((p) => html`
 </div>
 <p style="margin: 0; font-size: 13px; color: #7C8296">הזיזו את העכבר · לחצו על האותיות</p>
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 6px">
-<a class="btnmain mag" href="#machine" style="background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">בנו מערכת בהדמיה ↓</a>
-<a class="mag" href="#contact" style="border: 1px solid #3A3F55; background: rgba(7,8,11,.5); color: #F2F3F5; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">שיחת היכרות</a>
+<a class="btnmain mag" href="#machine" style="background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">ראו את זה קורה ↓</a>
+<a class="mag" href="#contact" style="border: 1px solid #3A3F55; background: rgba(7,8,11,.5); color: #F2F3F5; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">לקביעת שיחת אפיון</a>
 </div>
 </div>
 </section>
@@ -548,8 +548,8 @@ ${v.flyers.map((p) => html`
 <div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px">
 <div class="reveal" style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
 <div style="font-size: 14px; font-weight: 700; color: ${v.accent}">הדמיה חיה</div>
-<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">רוצים לראות איך זה ייראה אצלכם? <span style="color: ${v.accent}">בנו את המערכת שלכם עכשיו.</span></h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.65; color: #A3A8B8">סמנו מה העסק שלכם צריך, לחצו על הכפתור – ותראו את המערכת נבנית ועולה לאוויר תוך כמה שניות.</p>
+<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">שלושים שניות. מערכת שלמה. <span style="color: ${v.accent}">תראו בעצמכם.</span></h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.65; color: #A3A8B8">בחרו את סוג העסק ואת מה שהוא צריך, וצפו איך רעיון הופך למערכת שעובדת, מכניסה כסף וחוסכת שעות.</p>
 </div>
 
 <div class="reveal" style="display: flex; flex-wrap: wrap; gap: 22px; align-items: stretch">
@@ -560,7 +560,7 @@ ${v.flyers.map((p) => html`
 <div style="border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; transition: all .3s ease; ${v.st1}">
 <div style="display: flex; align-items: center; gap: 12px">
 <span style="width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 15px; ${v.dot1}">${v.mark1}</span>
-<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">אפיון</strong><span style="font-size: 14px; color: #A3A8B8">מה העסק שלכם צריך?</span></div>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">אפיון</strong><span style="font-size: 14px; color: #A3A8B8">מבינים את העסק לעומק</span></div>
 </div>
 ${v.isPick ? html`
 <div style="display: flex; flex-direction: column; gap: 12px">
@@ -590,7 +590,7 @@ ${n.label}
 <div style="border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: all .3s ease; ${v.st2}">
 <div style="display: flex; align-items: center; gap: 12px">
 <span style="width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 15px; ${v.dot2}">${v.mark2}</span>
-<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">ביצוע</strong><span style="font-size: 14px; color: #A3A8B8">עיצוב, פיתוח וחיבור כל הרכיבים</span></div>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">ביצוע</strong><span style="font-size: 14px; color: #A3A8B8">בונים בדיוק את מה שצריך – לא שורה אחת יותר</span></div>
 ${v.isBuild ? html`<span style="margin-inline-start: auto; font-weight: 800; font-size: 22px; color: ${v.accent}">${v.pct}%</span>` : null}
 </div>
 ${v.isBuild ? html`
@@ -604,7 +604,7 @@ ${v.isBuild ? html`
 <div style="border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; transition: all .3s ease; ${v.st3}">
 <div style="display: flex; align-items: center; gap: 12px">
 <span style="width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 15px; ${v.dot3}">${v.mark3}</span>
-<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">עולים לענן</strong><span style="font-size: 14px; color: #A3A8B8">הכול באוויר – ועובד בשבילכם</span></div>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">עולים לענן</strong><span style="font-size: 14px; color: #A3A8B8">המערכת חיה, והעסק מרוויח</span></div>
 </div>
 ${v.isLive ? html`
 <div style="display: flex; flex-direction: column; gap: 12px">
@@ -615,7 +615,7 @@ ${v.isLive ? html`
 </div>
 <div style="font-size: 12px; color: #7C8296">* הנתונים להמחשה בלבד</div>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
-<a class="btnmain mag" href="#contact" style="flex: 1 1 auto; text-align: center; background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 16px; padding: 13px 18px; border-radius: 12px; text-decoration: none">אני רוצה מערכת כזאת</a>
+<a class="btnmain mag" href="#contact" style="flex: 1 1 auto; text-align: center; background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 16px; padding: 13px 18px; border-radius: 12px; text-decoration: none">אני רוצה את זה בעסק שלי</a>
 <button type="button" onClick=${v.onReset} style="font-family: 'Rubik', sans-serif; font-size: 15px; padding: 11px 16px; min-height: 46px; border-radius: 12px; background: none; border: 1px solid #3A3F55; color: #F2F3F5; cursor: pointer">↻ בנו מחדש</button>
 </div>
 </div>
@@ -832,7 +832,7 @@ ${v.isCount ? html`
 <section id="services" style="padding: 90px 0; border-top: 1px solid #1A1D29">
 <div class="reveal" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 32px; display: flex; flex-direction: column; gap: 12px">
 <div style="font-size: 14px; font-weight: 700; color: ${v.accent}">שירותים</div>
-<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">מאתר תדמית ועד מערכת שמנהלת את העסק כולו</h2>
+<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">כל מה שעסק צריך כדי לצמוח – תחת קורת גג אחת</h2>
 </div>
 <div style="border-top: 1px solid #23263A">
 ${v.services.map((sv) => html`
@@ -852,7 +852,7 @@ ${v.services.map((sv) => html`
 <section id="contact" class="gridbg" style="position: relative; padding: 100px 24px 110px; border-top: 1px solid #1A1D29; overflow: hidden">
 <div class="aurora-wrap" aria-hidden="true"><span class="aurora a1" style="top: auto; bottom: -220px; right: 10%"></span><span class="aurora a2" style="bottom: auto; top: -160px"></span></div>
 <div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center">
-<div class="reveal" style="font-size: clamp(17px, 1.6vw, 21px); color: #C9CDD8">הכול מתחיל בשיחה אחת.</div>
+<div class="reveal" style="font-size: clamp(17px, 1.6vw, 21px); color: #C9CDD8">הצעד הבא של העסק שלכם מתחיל כאן.</div>
 <div class="reveal"><div class="outline" style="font-size: clamp(52px, 8vw, 116px); font-weight: 800; line-height: 1; letter-spacing: -1px">בואו נדבר.</div></div>
 
 <div style="width: 100%; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: center">
@@ -861,21 +861,21 @@ ${v.isSent ? html`
 <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; padding: 20px 0">
 <span style="width: 56px; height: 56px; border-radius: 50%; background: ${v.accent}; display: grid; place-items: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#07080B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></span>
 <strong style="font-size: 22px">תודה, הפנייה התקבלה!</strong>
-<span style="font-size: 16px; color: #A3A8B8; line-height: 1.6">אחזור אליכם בהקדם האפשרי.</span>
+<span style="font-size: 16px; color: #A3A8B8; line-height: 1.6">אעבור עליה אישית ואחזור אליכם בהקדם.</span>
 </div>
 ` : null}
 ${v.notSent ? html`
 <form onSubmit=${v.onSubmit} style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 4px">
-<strong style="font-size: 20px">השאירו פרטים ואחזור אליכם</strong>
-<span style="font-size: 14px; color: #A3A8B8">הפנייה תגיע אליי ישירות למייל.</span>
+<strong style="font-size: 20px">ספרו לי על העסק, ואחזור אליכם עם כיוון ברור</strong>
+<span style="font-size: 14px; color: #A3A8B8">בלי התחייבות. הפנייה מגיעה ישירות אליי.</span>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
 <div style="display: flex; flex-direction: column; gap: 6px"><label for="f-name" style="font-size: 14px; color: #C9CDD8">שם מלא *</label><input id="f-name" class="field" type="text" autocomplete="name" value=${v.fName} onInput=${v.onName} onChange=${v.onName} placeholder="ישראל ישראלי" style=${v.nameStyle} />${v.hasErrName ? html`<span class="ferr">${v.errName}</span>` : null}</div>
 <div style="display: flex; flex-direction: column; gap: 6px"><label for="f-phone" style="font-size: 14px; color: #C9CDD8">טלפון *</label><input id="f-phone" class="field" type="tel" inputmode="tel" maxlength="16" autocomplete="tel" dir="ltr" value=${v.fPhone} onInput=${v.onPhone} onChange=${v.onPhone} placeholder="050-0000000" style=${v.phoneStyle} />${v.hasErrPhone ? html`<span class="ferr">${v.errPhone}</span>` : null}</div>
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px"><label for="f-email" style="font-size: 14px; color: #C9CDD8">אימייל</label><input id="f-email" class="field" type="text" inputmode="email" autocomplete="email" dir="ltr" value=${v.fEmail} onInput=${v.onEmail} onChange=${v.onEmail} placeholder="name@example.com" style=${v.emailStyle} />${v.hasErrEmail ? html`<span class="ferr">${v.errEmail}</span>` : null}</div>
-<div style="display: flex; flex-direction: column; gap: 6px"><label for="f-msg" style="font-size: 14px; color: #C9CDD8">במה אוכל לעזור?</label><textarea id="f-msg" class="field" rows="4" value=${v.fMsg} onInput=${v.onMsg} onChange=${v.onMsg} placeholder="ספרו בקצרה על העסק ועל מה שאתם צריכים" style="resize: vertical"></textarea></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="f-msg" style="font-size: 14px; color: #C9CDD8">מה העסק שלכם צריך?</label><textarea id="f-msg" class="field" rows="4" value=${v.fMsg} onInput=${v.onMsg} onChange=${v.onMsg} placeholder="ספרו בקצרה על העסק ועל מה שאתם צריכים" style="resize: vertical"></textarea></div>
 ${v.hasSim ? html`
 <div style="font-size: 13px; color: #A3A8B8; background: #0B0D12; border: 1px dashed #2A2E40; border-radius: 10px; padding: 10px 12px; line-height: 1.6">יצורפו לפנייה גם הבחירות שלכם מההדמיה: ${v.simSummary}</div>
 ` : null}
