@@ -66,6 +66,14 @@ a{color:#C8F031}a:hover{color:#E2FF7A}
 .pulse.v{top:0;width:1px;height:160px;background:linear-gradient(180deg,transparent,var(--acc),transparent);animation-name:pv}
 @keyframes ph{0%{transform:translateX(-200px);opacity:0}10%{opacity:.7}90%{opacity:.7}100%{transform:translateX(2200px);opacity:0}}
 @keyframes pv{0%{transform:translateY(-200px);opacity:0}10%{opacity:.7}90%{opacity:.7}100%{transform:translateY(1000px);opacity:0}}
+@keyframes codescroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes logoflash{0%,42%{opacity:0;transform:scale(.96)}46%,58%{opacity:1;transform:scale(1)}62%,100%{opacity:0;transform:scale(1.02)}}
+@keyframes screenglow{0%,100%{opacity:.5}50%{opacity:.85}}
+@keyframes caretblink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.codescroll{animation:codescroll 16s linear infinite}
+.logoflash{animation:logoflash 16s ease-in-out infinite}
+.screenglow{animation:screenglow 4s ease-in-out infinite}
+.caret{animation:caretblink 1s step-end infinite}
 .ferr{font-size:13px;color:#F2A65A}
 .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
 .reveal.in{opacity:1;transform:none}
@@ -835,7 +843,8 @@ ${v.services.map((sv) => html`
 <div class="reveal" style="font-size: clamp(17px, 1.6vw, 21px); color: #C9CDD8">הכול מתחיל בשיחה אחת.</div>
 <div class="reveal"><div class="outline" style="font-size: clamp(52px, 8vw, 116px); font-weight: 800; line-height: 1; letter-spacing: -1px">בואו נדבר.</div></div>
 
-<div class="reveal" style="width: 100%; max-width: 640px; background: rgba(18,20,27,.85); border: 1px solid #23263A; border-radius: 22px; padding: clamp(20px, 3vw, 32px); box-sizing: border-box; text-align: right; backdrop-filter: blur(8px)">
+<div style="width: 100%; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: center">
+<div class="reveal" style="flex: 1 1 380px; max-width: 560px; background: rgba(18,20,27,.85); border: 1px solid #23263A; border-radius: 22px; padding: clamp(20px, 3vw, 32px); box-sizing: border-box; text-align: right; backdrop-filter: blur(8px)">
 ${v.isSent ? html`
 <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; padding: 20px 0">
 <span style="width: 56px; height: 56px; border-radius: 50%; background: ${v.accent}; display: grid; place-items: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#07080B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></span>
@@ -864,6 +873,62 @@ ${v.hasFormMsg ? html`
 <button type="submit" class="btnmain mag" disabled=${v.isSending} style="font-family: 'Rubik', sans-serif; font-size: 17px; font-weight: 700; padding: 15px 20px; min-height: 52px; border: none; border-radius: 14px; cursor: pointer; background: ${v.accent}; color: #07080B">${v.submitLabel}</button>
 </form>
 ` : null}
+</div>
+<div class="reveal" aria-hidden="true" style="flex: 1 1 380px; max-width: 520px; width: 100%">
+<div style="position: relative; width: 100%; aspect-ratio: 520 / 460">
+<div class="screenglow" style="position: absolute; left: 10%; right: 10%; top: 0; height: 70%; background: radial-gradient(ellipse at center, ${v.accent}33, transparent 65%); filter: blur(20px)"></div>
+<div style="position: absolute; left: 50%; top: 4%; width: 74%; height: 50%; transform: translateX(-50%); background: #05070A; border: 2px solid #2A2E40; border-radius: 12px; overflow: hidden; box-shadow: 0 0 50px ${v.accent}26, inset 0 0 30px rgba(0,0,0,.6)">
+<div style="position: absolute; top: 0; left: 0; right: 0; height: 22px; background: #0B0D12; border-bottom: 1px solid #1C2030; display: flex; align-items: center; gap: 5px; padding: 0 9px" dir="ltr"><span style="width: 7px; height: 7px; border-radius: 50%; background: #3A3F55"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #3A3F55"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #3A3F55"></span><span style="margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #6B7186">project.js</span></div>
+<div dir="ltr" style="position: absolute; top: 22px; left: 0; right: 0; bottom: 0; overflow: hidden; padding: 6px 12px; text-align: left">
+<div class="codescroll" style="font-family: 'JetBrains Mono', monospace; font-size: clamp(8px, 1.15vw, 11px)">
+<div style="white-space: pre; min-height: 1.7em; color: #7C8296">// לקוח חדש – מתחילים באפיון</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#A78BFA">const</span> client = <span style="color:#A78BFA">await</span> ydt.<span style="color:#5CE1E6">meet</span>(business);</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#A78BFA">const</span> spec = <span style="color:#5CE1E6">plan</span>(client.needs);</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"></div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#5CE1E6">build</span>({</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">  site: <span style="color:#F2A65A">'responsive'</span>,</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">  crm: <span style="color:#A78BFA">true</span>,</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">  forms: [<span style="color:#F2A65A">'signup'</span>, <span style="color:#F2A65A">'order'</span>],</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">  automations: spec.workflows,</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">});</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"></div>
+<div style="white-space: pre; min-height: 1.7em; color: #7C8296">// בדיקות</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#5CE1E6">test</span>(<span style="color:#F2A65A">'mobile'</span>, <span style="color:#F2A65A">'desktop'</span>);</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#A78BFA">await</span> <span style="color:#5CE1E6">deploy</span>(<span style="color:#F2A65A">'cloud'</span>);</div>
+<div style="white-space: pre; min-height: 1.7em; color: ${v.accent}">✓ live · all systems go</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"></div>
+<div style="white-space: pre; min-height: 1.7em; color: #7C8296">// לקוח חדש – מתחילים באפיון</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#A78BFA">const</span> client = <span style="color:#A78BFA">await</span> ydt.<span style="color:#5CE1E6">meet</span>(business);</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#A78BFA">const</span> spec = <span style="color:#5CE1E6">plan</span>(client.needs);</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"></div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#5CE1E6">build</span>({</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">  site: <span style="color:#F2A65A">'responsive'</span>,</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">  crm: <span style="color:#A78BFA">true</span>,</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">  forms: [<span style="color:#F2A65A">'signup'</span>, <span style="color:#F2A65A">'order'</span>],</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">  automations: spec.workflows,</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8">});</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"></div>
+<div style="white-space: pre; min-height: 1.7em; color: #7C8296">// בדיקות</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#5CE1E6">test</span>(<span style="color:#F2A65A">'mobile'</span>, <span style="color:#F2A65A">'desktop'</span>);</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"><span style="color:#A78BFA">await</span> <span style="color:#5CE1E6">deploy</span>(<span style="color:#F2A65A">'cloud'</span>);</div>
+<div style="white-space: pre; min-height: 1.7em; color: ${v.accent}">✓ live · all systems go</div>
+<div style="white-space: pre; min-height: 1.7em; color: #C9CDD8"></div>
+</div>
+</div>
+<div class="logoflash" style="position: absolute; inset: 22px 0 0 0; background: #05070A; display: grid; place-items: center">
+<span dir="ltr" style="font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: clamp(20px, 3vw, 30px); color: #F2F3F5; text-shadow: 0 0 18px ${v.accent}55">YDT<span style="color: ${v.accent}">.TECH</span><span class="caret" style="color: ${v.accent}">_</span></span>
+</div>
+</div>
+<div style="position: absolute; left: 50%; top: 54%; width: 4%; height: 8%; transform: translateX(-50%); background: linear-gradient(90deg, #15171D, #2A2E36, #15171D)"></div>
+<div style="position: absolute; left: 50%; top: 61.5%; width: 22%; height: 1.6%; transform: translateX(-50%); border-radius: 4px; background: #1C1F27"></div>
+<div style="position: absolute; left: 0; right: 0; top: 63%; height: 2.4%; background: linear-gradient(180deg, #1A1D27, #0E1016); border-top: 1px solid #2A2E40; border-radius: 3px"></div>
+<svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMax meet" style="position: absolute; left: 50%; bottom: 0; width: 50%; transform: translateX(-50%); overflow: visible; filter: drop-shadow(0 -1px 1px ${v.accent}AA) drop-shadow(0 -4px 10px ${v.accent}55)">
+<path d="M150 18 C171 18 186 34 186 56 C186 74 177 88 166 94 L166 108 C206 116 238 132 256 160 C272 186 280 216 282 250 L18 250 C20 216 28 186 44 160 C62 132 94 116 134 108 L134 94 C123 88 114 74 114 56 C114 34 129 18 150 18 Z" fill="#030405"></path>
+<path d="M126 26 C134 15 166 15 174 26 C163 22 137 22 126 26 Z" fill="#030405"></path>
+</svg>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 18%; background: linear-gradient(0deg, #07080B, transparent)"></div>
+</div>
+</div>
 </div>
 
 <div class="reveal" style="display: flex; flex-direction: column; align-items: center; gap: 12px">
