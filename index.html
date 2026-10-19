@@ -520,7 +520,7 @@ ${v.flyers.map((p) => html`
 </div>
 <p style="margin: 0; font-size: 13px; color: #7C8296">הזיזו את העכבר · לחצו על האותיות</p>
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 6px">
-<a class="btnmain mag" href="#machine" style="background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">ראו את זה קורה ↓</a>
+<a class="btnmain mag" href="#machine" style="background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">צפו בהדמיה ↓</a>
 <a class="mag" href="#contact" style="border: 1px solid #3A3F55; background: rgba(7,8,11,.5); color: #F2F3F5; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">לקביעת שיחת אפיון</a>
 </div>
 </div>
@@ -547,9 +547,9 @@ ${v.flyers.map((p) => html`
 <div class="aurora-wrap" aria-hidden="true"><span class="aurora a2" style="top: 10%; bottom: auto"></span><span class="aurora a3" style="top: 55%"></span></div>
 <div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px">
 <div class="reveal" style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
-<div style="font-size: 14px; font-weight: 700; color: ${v.accent}">הדמיה חיה</div>
-<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">שלושים שניות. מערכת שלמה. <span style="color: ${v.accent}">תראו בעצמכם.</span></h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.65; color: #A3A8B8">בחרו את סוג העסק ואת מה שהוא צריך, וצפו איך רעיון הופך למערכת שעובדת, מכניסה כסף וחוסכת שעות.</p>
+<div style="font-size: 14px; font-weight: 700; color: ${v.accent}">הדמיה אינטראקטיבית · להמחשה בלבד</div>
+<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">ככה נראה תהליך העבודה איתי. <span style="color: ${v.accent}">בהילוך מהיר.</span></h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.65; color: #A3A8B8">בחרו סוג עסק ורכיבים, וצפו בשלושת השלבים – אפיון, ביצוע ועלייה לענן – מתרחשים תוך שניות. בפרויקט אמיתי כל שלב נעשה יחד איתכם, לעומק ובקפידה.</p>
 </div>
 
 <div class="reveal" style="display: flex; flex-wrap: wrap; gap: 22px; align-items: stretch">
@@ -581,7 +581,7 @@ ${n.label}
 </div>
 <button type="button" class="btnmain mag" onClick=${v.onStart} disabled=${v.noneSelected} style="display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'Rubik', sans-serif; font-size: 17px; font-weight: 700; padding: 14px 18px; min-height: 52px; border: none; border-radius: 14px; cursor: pointer; ${v.startStyle}">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg>
-בנו את המערכת
+הפעילו את ההדמיה
 </button>
 </div>
 ` : null}
@@ -629,8 +629,8 @@ ${v.isLive ? html`
 ${v.isPick ? html`
 <div style="flex: 1; border: 1.5px dashed #2A2E40; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 30px">
 <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#3A3F55" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
-<div style="font-size: clamp(20px, 2vw, 26px); font-weight: 700; color: #7C8296">כאן ייבנה העסק שלכם</div>
-<div style="font-size: 15px; color: #6B7186">בחרו מימין ולחצו על „בנו את המערכת”</div>
+<div style="font-size: clamp(20px, 2vw, 26px); font-weight: 700; color: #7C8296">כאן תופיע הדמיית המערכת שלכם</div>
+<div style="font-size: 15px; color: #6B7186">בחרו מימין ולחצו על „הפעילו את ההדמיה”</div>
 </div>
 ` : null}
 
