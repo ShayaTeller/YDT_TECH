@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YDT.TECH – סטודיו לפיתוח ופתרונות דיגיטליים לעסקים</title>
+<meta name="description" content="אתרים, חנויות אונליין, מערכות CRM, טפסים מורכבים ואוטומציות לעסקים – מאפיון ועד עלייה לענן.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&amp;family=Unbounded:wght@700;900&amp;family=JetBrains+Mono:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#07080B}
+a{color:#C8F031}a:hover{color:#E2FF7A}
+.gridbg{background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -10px}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+@keyframes mqr{from{transform:translateX(50%)}to{transform:translateX(0)}}
+@keyframes shake{0%{translate:0 0}25%{translate:1px -1px}50%{translate:-1px 1px}75%{translate:1px 1px}100%{translate:0 0}}
+@keyframes flow{to{background-position:-200% 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fly{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}8%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) rotate(var(--r)) scale(1.05);opacity:1}}
+@keyframes puff{0%{transform:translate(0,0) scale(.3);opacity:0}15%{opacity:.85}100%{transform:translate(var(--sx),-50px) scale(2.8);opacity:0}}
+.puff{position:absolute;bottom:6px;width:70px;height:70px;margin-left:-35px;border-radius:50%;background:radial-gradient(circle at 42% 38%,#EEF0F3 0%,#B9BEC8 45%,rgba(110,116,130,.6) 75%,rgba(110,116,130,0) 100%);filter:blur(3px);animation:puff 1.9s ease-out infinite}
+@keyframes flicker{0%,100%{transform:scaleY(1) scaleX(1)}50%{transform:scaleY(1.3) scaleX(.9)}}
+.flame{transform-origin:top center;animation:flicker .11s ease-in-out infinite}
+@keyframes rumble{0%,100%{translate:0 0}25%{translate:1.5px 0}75%{translate:-1.5px 0}}
+@keyframes techflick{0%{opacity:1}0.15%{opacity:.15}0.3%{opacity:1}0.45%{opacity:.05}0.55%{opacity:.9}0.7%{opacity:.25}0.85%{opacity:1}1.05%{opacity:.4}1.2%{opacity:1}1.35%{opacity:.6}1.5%,100%{opacity:1}}
+@keyframes neonIn{0%{opacity:0;max-width:0;filter:blur(0);animation-timing-function:cubic-bezier(.25,.8,.3,1)}2%{opacity:1}3.5%{opacity:.1}5%{opacity:1}6.5%{opacity:.25}8%{opacity:.9}9.5%{opacity:.4}14%{opacity:1;max-width:6em;filter:blur(0);transform:scale(1)}50%{opacity:1;max-width:6em;filter:blur(0);transform:scale(1);animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0;max-width:0;filter:blur(10px);transform:scale(1.2)}}
+.neonIn{display:inline-block;vertical-align:baseline;white-space:nowrap;transform-origin:left center;animation:neonIn 6.5s linear both}
+.techflick{display:inline-block;animation:techflick 90s linear 4s infinite}
+.flycard{position:absolute;left:0;top:0;white-space:nowrap;opacity:0;animation:fly 6.5s cubic-bezier(.3,.1,.4,1) forwards}
+.chip{animation:floaty 5s ease-in-out infinite}
+.chip2{animation:floaty 6.5s ease-in-out infinite}
+.chip3{animation:floaty 4.2s ease-in-out infinite}
+.livedot{animation:pulse 1.4s ease-in-out infinite}
+.mq{animation:mq 36s linear infinite}
+.mqr{animation:mqr 42s linear infinite}
+.spin{animation:spin 1s linear infinite}
+.flowline{background:linear-gradient(90deg,transparent 0%,var(--acc) 50%,transparent 100%);background-size:200% 100%;animation:flow 1.6s linear infinite}
+.navlink{color:#C9CDD8;text-decoration:none}
+.navlink:hover{color:#FFFFFF}
+.btnmain{transition:filter .2s ease}
+.btnmain:hover{filter:brightness(1.08)}
+.need{transition:all .2s ease}
+.need:hover{border-color:var(--acc)}
+.srow{position:relative;overflow:hidden;transition:color .3s ease}
+.srow .fill{position:absolute;inset:0;background:var(--acc);transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.7,0,.2,1)}
+.srow:hover .fill{transform:scaleY(1)}
+.srow:hover{color:#07080B}
+.srow .desc{color:#A3A8B8;transition:color .3s ease}
+.srow:hover .desc{color:#07080B}
+.srow:hover .snum{color:#07080B}
+.mod{transition:transform .8s cubic-bezier(.2,1.3,.3,1),opacity .5s ease}
+.outline{display:inline-block;padding:0 .08em;color:transparent;-webkit-text-stroke:1.5px #F2F3F5;background-image:linear-gradient(var(--acc),var(--acc));background-repeat:no-repeat;background-position:right center;background-size:0% 100%;-webkit-background-clip:text;background-clip:text;transition:background-size 1.6s cubic-bezier(.45,0,.2,1),-webkit-text-stroke-color .8s ease;cursor:default}
+.outline:hover{background-size:100% 100%;-webkit-text-stroke-color:var(--acc)}
+.card{transition:transform .25s ease,border-color .25s ease}
+.card:hover{transform:translateY(-4px);border-color:var(--acc)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import { html, render, Component } from './vendor/preact-htm.module.js';
+class App extends Component {
+  state = {
+    rx: -10, ry: 22, mx: 50, my: 40, burst: false, techOn: false, tick: 0,
+    phase: 'pick', mt: 0, biz: 0,
+    needs: { site: true, shop: false, crm: true, forms: false, auto: false, mail: true, remind: false }
+  };
+
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      const st = this.state;
+      const u = { tick: st.tick + 1 };
+      if (st.phase === 'run') u.mt = st.mt + 1;
+      this.setState(u);
+    }, 100);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    clearTimeout(this.burstTimer);
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#C8F031';
+    const s = this.state;
+
+    const words = ['אתרי תדמית מתקדמים', 'פלטפורמות E-Commerce', 'מערכות CRM מותאמות אישית', 'Dashboards ניהוליים', 'טפסים דיגיטליים מורכבים', 'אוטומציות עסקיות', 'אינטגרציות API', 'פתרונות מבוססי ענן'];
+    const wIdx = Math.floor(s.tick / 22) % words.length;
+
+    const layerCount = 22;
+    const layers = [];
+    for (let i = layerCount - 1; i >= 0; i--) {
+      const color = i === 0 ? '#F2F3F5' : accent;
+      const bright = i === 0 ? 1 : (1.05 - (i / layerCount) * 0.7).toFixed(2);
+      const glow = i === layerCount - 1 ? ' text-shadow: 0 0 40px ' + accent + '66, 0 0 90px ' + accent + '33;' : '';
+      const z = -i * 3.2;
+      const tech = i === 0
+        ? 'color: ' + accent + '; text-shadow: 0 0 6px ' + accent + ', 0 0 22px ' + accent + 'AA, 0 0 60px ' + accent + '66;'
+        : 'color: ' + accent + ';';
+      layers.push({ tech: tech, style: 'color: ' + color + '; filter: brightness(' + bright + '); transform: translateZ(' + z.toFixed(1) + 'px);' + glow + ' transition: opacity 1.2s ease, transform 1.2s cubic-bezier(.2,1,.3,1);' });
+    }
+
+    const FLY = [
+      { label: 'אתר תדמית', color: accent }, { label: 'CRM', color: '#5CE1E6' },
+      { label: 'חנות אונליין', color: '#F2A65A' }, { label: 'אוטומציות', color: '#A78BFA' },
+      { label: 'מיילים אוטומטיים', color: '#A78BFA' }, { label: 'תזכורות', color: '#F2A65A' },
+      { label: 'דף נחיתה', color: accent }, { label: 'לוח מודעות', color: '#5CE1E6' },
+      { label: 'ניהול לקוחות', color: '#5CE1E6' }, { label: 'סליקה', color: '#F2A65A' },
+      { label: 'טפסים', color: accent }, { label: 'עולה לענן', color: accent },
+      { label: 'מותאם לטלפון', color: '#A78BFA' }, { label: 'דוחות', color: '#5CE1E6' }
+    ];
+    const flyers = FLY.map((f, i) => {
+      const ang = (i / FLY.length) * Math.PI * 2 + 0.2;
+      const dist = 1100 + (i * 53) % 300;
+      const dx = Math.cos(ang) * dist * 1.5;
+      const dy = Math.sin(ang) * dist;
+      const r = ((i * 37) % 24) - 12;
+      return { label: f.label, color: f.color, style: '--dx: ' + dx.toFixed(0) + 'px; --dy: ' + dy.toFixed(0) + 'px; --r: ' + r + 'deg; animation-delay: ' + ((i % 4) * 60) + 'ms;' };
+    });
+
+    const NEEDS = [
+      { id: 'site', label: 'אתר תדמית', kind: 'lead', color: accent },
+      { id: 'shop', label: 'חנות אונליין', kind: 'lead', color: '#F2A65A' },
+      { id: 'crm', label: 'CRM לקוחות', kind: 'lead', color: '#5CE1E6' },
+      { id: 'forms', label: 'טפסים מורכבים', kind: 'lead', color: '#5CE1E6' },
+      { id: 'auto', label: 'אוטומציות', kind: 'auto', color: '#A78BFA' },
+      { id: 'mail', label: 'מיילים אוטומטיים', kind: 'auto', color: '#A78BFA' },
+      { id: 'remind', label: 'תזכורות', kind: 'auto', color: '#F2A65A' }
+    ];
+    const BIZ = ['חנות', 'נותן שירות', 'משרד', 'מסעדה / קייטרינג', 'מוסד / עמותה'];
+    const PROFILES = [
+      { verb: 'בוצעה הזמנה ע״ס', rev: 'מכירות החודש', last: 'בהזמנה האחרונה', goal: 100000,
+        deals: [450, 1250, 320, 890, 2400, 610, 1780, 260, 940, 3100],
+        src: ['הזמנה מהאתר', 'לקוח חוזר', 'מבצע סוף שבוע', 'הזמנה מהנייד'],
+        crm: ['ניהול לקוחות', 'הזמנה חדשה', 'ממתין למשלוח', 'לקוח חוזר'],
+        mail: 'תודה על ההזמנה!',
+        ev: { site: 'גולש השאיר פרטים באתר', shop: 'הזמנה חדשה התקבלה בחנות', crm: 'לקוח חדש נוסף למערכת', forms: 'טופס החזרה מולא ונקלט', auto: 'המלאי עודכן אוטומטית', mail: 'אישור הזמנה יצא ללקוח', remind: 'תזכורת על סל נטוש נשלחה' } },
+      { verb: 'נסגרה עסקה ע״ס', rev: 'הכנסות החודש', last: 'בעסקה האחרונה', goal: 60000,
+        deals: [1200, 450, 2800, 750, 3500, 600, 1900, 4200, 980, 1500],
+        src: ['פגישת ייעוץ', 'חבילת שירות', 'לקוח חדש מהאתר', 'חידוש מנוי'],
+        crm: ['לקוחות ותורים', 'פנייה חדשה', 'תור נקבע', 'לחזור ללקוח'],
+        mail: 'אישור קביעת תור',
+        ev: { site: 'לקוח קבע תור דרך האתר', shop: 'חבילת שירות נרכשה אונליין', crm: 'פנייה חדשה נכנסה למערכת', forms: 'טופס קליטת לקוח מולא', auto: 'משימת המשך נפתחה לנציג', mail: 'אישור תור נשלח ללקוח', remind: 'תזכורת לתור מחר נשלחה' } },
+      { verb: 'נחתם הסכם ע״ס', rev: 'הכנסות המשרד החודש', last: 'בהסכם האחרון', goal: 250000,
+        deals: [8500, 3200, 15000, 4800, 22000, 6400, 11500, 2900, 18000, 7200],
+        src: ['הצעת מחיר אושרה', 'ריטיינר חודשי', 'פרויקט חדש', 'לקוח עסקי'],
+        crm: ['CRM לקוחות עסקיים', 'ליד עסקי', 'הצעה נשלחה', 'פגישת סגירה'],
+        mail: 'הצעת המחיר מצורפת',
+        ev: { site: 'ליד עסקי השאיר פרטים', shop: 'שירות נרכש באתר', crm: 'ליד עסקי נכנס ל-CRM', forms: 'מסמך נחתם דיגיטלית', auto: 'משימה הוקצתה לעובד', mail: 'דו״ח שבועי נשלח למנהל', remind: 'תזכורת לפגישת לקוח נשלחה' } },
+      { verb: 'התקבלה הזמנה ע״ס', rev: 'הכנסות החודש', last: 'בהזמנה האחרונה', goal: 80000,
+        deals: [320, 2800, 180, 540, 4500, 260, 1450, 390, 6200, 210],
+        src: ['משלוח', 'הזמנת קייטרינג', 'איסוף עצמי', 'אירוע'],
+        crm: ['ניהול הזמנות', 'הזמנה חדשה', 'בהכנה', 'יצא למשלוח'],
+        mail: 'ההזמנה שלך בדרך!',
+        ev: { site: 'הזמנת שולחן התקבלה באתר', shop: 'הזמנת משלוח חדשה', crm: 'לקוח קבוע הזמין שוב', forms: 'טופס הזמנת קייטרינג מולא', auto: 'ההזמנה הועברה למטבח', mail: 'אישור הזמנה נשלח ללקוח', remind: 'תזכורת לאירוע מחר נשלחה' } },
+      { verb: 'התקבלה תרומה ע״ס', rev: 'תרומות החודש', last: 'בתרומה האחרונה', goal: 50000,
+        deals: [180, 1000, 360, 5000, 260, 1800, 540, 3600, 100, 720],
+        src: ['תרומה מהאתר', 'הוראת קבע', 'קמפיין', 'תורם חוזר'],
+        crm: ['ניהול תורמים', 'תורם חדש', 'הוראת קבע', 'לשלוח קבלה'],
+        mail: 'תודה על תרומתך!',
+        ev: { site: 'תורם חדש נרשם באתר', shop: 'כרטיס לאירוע נרכש', crm: 'תורם חדש נכנס למערכת', forms: 'טופס הרשמה מולא ונקלט', auto: 'קבלה על תרומה הופקה אוטומטית', mail: 'מכתב תודה נשלח לתורם', remind: 'תזכורת לאירוע נשלחה' } }
+    ];
+    const P = PROFILES[s.biz] || PROFILES[0];
+
+    const selected = NEEDS.filter((n) => s.needs[n.id]);
+    const noneSelected = selected.length === 0;
+
+    const BUILD = 60, COUNT = 50;
+    const isRun = s.phase === 'run';
+    const isPick = !isRun;
+    const isBuild = isRun && s.mt < BUILD;
+    const isCount = isRun && s.mt >= BUILD && s.mt < BUILD + COUNT;
+    const isLive = isRun && s.mt >= BUILD + COUNT;
+    const pct = Math.min(100, Math.round((s.mt / BUILD) * 100));
+
+    const LOG = ['מתרגם את האפיון לתוכנית…', 'מעצב את הממשק…', 'בונה את העמודים…', 'מחבר את מסד הנתונים…', 'מגדיר אוטומציות…', 'בודק בטלפון ובמחשב…'];
+    const logLine = LOG[Math.min(LOG.length - 1, Math.floor((s.mt / BUILD) * LOG.length))];
+
+    const has = {}, ms = {}, stx = {};
+    NEEDS.forEach((n, idx) => {
+      has[n.id] = !!s.needs[n.id];
+      const k = selected.indexOf(n);
+      const thr = selected.length ? ((k + 1) / (selected.length + 1)) * BUILD : 0;
+      const ready = isRun && s.mt >= thr;
+      const dx = ((idx * 137) % 300) - 150;
+      const dy = ((idx * 89) % 200) - 100 + 140;
+      const rot = ((idx * 53) % 40) - 20;
+      ms[n.id] = ready
+        ? 'opacity: 1; transform: none;' + (isLive ? ' border-color: ' + accent + '44;' : '')
+        : 'opacity: 0; transform: translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg) scale(.6);';
+      stx[n.id] = isLive ? 'פעיל' : (ready ? 'מוכן ✓' : 'בונה…');
+    });
+
+    const doneStyle = 'background: #0B0D12; border: 1px solid #23263A;';
+    const activeStyle = 'background: #12141B; border: 1px solid ' + accent + ';';
+    const idleStyle = 'background: #0B0D12; border: 1px solid #1A1D29; opacity: .55;';
+    const dotDone = 'background: ' + accent + '; color: #07080B;';
+    const dotActive = 'background: #F2F3F5; color: #07080B;';
+    const dotIdle = 'background: #1C2030; color: #8C92A4;';
+
+    const stage = isPick ? 0 : (isBuild ? 1 : 2);
+    const isDone = (i) => i < stage || (i === 2 && isLive);
+    const stStyle = (i) => isDone(i) ? doneStyle : (i === stage ? activeStyle : idleStyle);
+    const dotStyle = (i) => isDone(i) ? dotDone : (i === stage ? dotActive : dotIdle);
+    const mark = (i) => isDone(i) ? '✓' : String(i + 1);
+
+    const fc = isLive ? Math.floor((s.mt - BUILD - COUNT) / 12) + 1 : 0;
+    const feed = [];
+    if (selected.length) {
+      for (let j = fc - 1; j >= Math.max(0, fc - 4); j--) {
+        const n = selected[j % selected.length];
+        const ago = (fc - 1 - j);
+        feed.push({
+          text: P.ev[n.id],
+          color: n.color,
+          time: ago === 0 ? 'עכשיו' : 'לפני ' + (ago * 4 + 1) + ' שנ׳',
+          style: ago === 0 ? 'background: ' + accent + '14;' : 'background: transparent; opacity: ' + (1 - ago * 0.18) + ';'
+        });
+      }
+    }
+    let cLeads = 0, cAuto = 0;
+    selected.forEach((n, p) => {
+      const c = fc > p ? Math.floor((fc - 1 - p) / selected.length) + 1 : 0;
+      if (n.kind === 'lead') cLeads += c; else cAuto += c;
+    });
+
+    const lt = isLive ? s.mt - BUILD - COUNT : 0;
+    const DEALS = P.deals;
+    const SRC = P.src;
+    const DL = 15;
+    const dn = Math.floor(lt / DL);
+    const dp = lt % DL;
+    let base = 0;
+    for (let i = 0; i < dn; i++) base += DEALS[i % DEALS.length];
+    const curDeal = DEALS[dn % DEALS.length];
+    const total = base + Math.round(curDeal * Math.min(1, dp / 8));
+    const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const frac = Math.min(1, total / P.goal);
+    const barH = [34, 48, 40, 56, 62, 74];
+    const bars = barH.map((h) => ({ style: 'height: ' + h + '%; background: #2A2E40;' }));
+    bars.push({ style: 'height: ' + Math.min(100, 16 + total / (P.goal / 90)).toFixed(0) + '%; background: ' + accent + ';' });
+    const toastStyle = dp < 1
+      ? 'transform: translateX(-140%); opacity: 0; transition: none;'
+      : (dp >= 12
+        ? 'transform: translateX(-140%); opacity: 0; transition: transform .45s ease-in, opacity .45s ease-in;'
+        : 'transform: none; opacity: 1; transition: transform .6s cubic-bezier(.2,1.3,.3,1), opacity .3s ease;');
+
+    let boardStyle = 'border: 1px solid #23263A;';
+    const cdT = s.mt - BUILD;
+    const launched = isCount && cdT >= 30;
+    if (isCount) boardStyle = 'border: 1px solid ' + accent + ';' + (launched ? '' : ' animation: shake .15s linear infinite;');
+    if (isLive) boardStyle = 'border: 1px solid ' + accent + '; box-shadow: 0 20px 80px ' + accent + '18;';
+
+    const services = [
+      { num: '01', title: 'אתרי תדמית', desc: 'הכרטיס הדיגיטלי של העסק – מי אתם ואיך פונים אליכם.' },
+      { num: '02', title: 'חנויות אונליין', desc: 'קטלוג, סל קניות ותשלום מאובטח. מוכרים גם כשסגור.' },
+      { num: '03', title: 'מערכות Web בהתאמה אישית', desc: 'פורטלים, מערכות ניהול ופלטפורמות SaaS – נבנות מאפס סביב תהליכי העבודה של העסק שלכם.' },
+      { num: '04', title: 'CRM לניהול לקוחות', desc: 'כל לקוח וכל פנייה במקום אחד. אף ליד לא הולך לאיבוד.' },
+      { num: '05', title: 'אוטומציות', desc: 'המשימות שחוזרות על עצמן – קורות לבד.' },
+      { num: '06', title: 'מיילים ותזכורות', desc: 'אישורים, תזכורות ומעקב – יוצאים בזמן, כל פעם.' },
+      { num: '07', title: 'טפסים דיגיטליים מורכבים', desc: 'טפסים רב־שלביים עם שדות מותנים, חתימה דיגיטלית, העלאת קבצים וחיבור ישיר למערכת.' }
+    ];
+
+    return {
+      accent: accent,
+      rootVars: '--acc: ' + accent + ';',
+      spot: 'background: radial-gradient(600px circle at ' + s.mx.toFixed(1) + '% ' + s.my.toFixed(1) + '%, ' + accent + '14, transparent 60%);',
+      words: words,
+      slotStyle: 'transform: translateY(-' + (wIdx * 1.2).toFixed(2) + 'em);',
+      sceneStyle: 'transform: rotateX(' + s.rx.toFixed(1) + 'deg) rotateY(' + s.ry.toFixed(1) + 'deg) scale(' + (s.burst ? 1.06 : 1) + ');',
+      layers: layers,
+      flyers: flyers,
+      burst: s.burst,
+      techOn: s.techOn,
+
+      bizList: BIZ.map((b, i) => ({
+        label: b, on: i === s.biz,
+        style: i === s.biz ? 'background: #F2F3F5; color: #07080B; border: 1px solid #F2F3F5; font-weight: 700;' : 'background: transparent; color: #C9CDD8; border: 1px solid #2A2E40;',
+        pick: () => this.setState({ biz: i })
+      })),
+      needList: NEEDS.map((n) => ({
+        label: n.label, on: !!s.needs[n.id],
+        style: s.needs[n.id] ? 'background: #1A1E2B; color: #F2F3F5; border: 1px solid ' + accent + ';' : 'background: #0B0D12; color: #C9CDD8; border: 1px solid #23263A;',
+        box: s.needs[n.id] ? 'background: ' + accent + ';' : 'border: 1.5px solid #3A3F55;',
+        toggle: () => this.setState({ needs: Object.assign({}, this.state.needs, { [n.id]: !this.state.needs[n.id] }) })
+      })),
+      noneSelected: noneSelected,
+      startStyle: noneSelected ? 'background: #1C2030; color: #6B7186; cursor: not-allowed;' : 'background: ' + accent + '; color: #07080B;',
+      onStart: () => { if (!noneSelected) this.setState({ phase: 'run', mt: 0 }); },
+      onReset: () => this.setState({ phase: 'pick', mt: 0 }),
+
+      isPick: isPick, isRun: isRun, isBuild: isBuild, isCount: isCount, isLive: isLive,
+      pct: pct, logLine: logLine, barStyle: 'width: ' + pct + '%;',
+      countNum: launched ? 'המראה!' : String(Math.max(1, 3 - Math.floor(cdT / 10))),
+      launchText: launched ? 'העסק שלכם עולה לענן' : 'מכינים לשיגור…',
+      rocketStyle: launched ? 'transform: translateY(-1200px); transition: transform 2s cubic-bezier(.6,0,.9,.35);' : 'transform: translateY(0); animation: rumble .09s linear infinite;',
+      flameStyle: launched ? 'width: 48px; height: 190px;' : 'width: 30px; height: ' + (24 + Math.min(cdT, 30)) + 'px; opacity: .9;',
+      smokeStyle: launched ? 'transform: scale(1.5); opacity: 1;' : 'transform: scale(' + (0.6 + Math.min(cdT, 30) / 60).toFixed(2) + '); opacity: .85;',
+      st1: stStyle(0), st2: stStyle(1), st3: stStyle(2),
+      dot1: dotStyle(0), dot2: dotStyle(1), dot3: dotStyle(2),
+      mark1: mark(0), mark2: mark(1), mark3: mark(2),
+      bizLabel: BIZ[s.biz],
+      badge: isLive ? 'באוויר' : (isCount ? 'עולה לענן…' : 'בבנייה ' + pct + '%'),
+      badgeStyle: isLive ? 'background: ' + accent + '; color: #07080B;' : 'background: #1C2030; color: #C9CDD8;',
+      boardStyle: boardStyle,
+      has: has, ms: ms, stx: stx,
+      feed: feed,
+      dealFmt: fmt(curDeal), dealSrc: SRC[dn % SRC.length], totalFmt: fmt(total),
+      dealVerb: P.verb, revLabel: P.rev, lastLabel: P.last, goalFmt: fmt(P.goal), mailSubj: P.mail,
+      crmTitle: P.crm[0], crmR1: P.crm[1], crmR2: P.crm[2], crmR3: P.crm[3],
+      ringOffset: (314.16 * (1 - frac)).toFixed(1), goalPct: String(Math.round(frac * 100)),
+      bars: bars, toastStyle: toastStyle,
+      cEvents: String(fc), cLeads: String(cLeads), cAuto: String(cAuto),
+
+      services: services,
+
+      onMove: (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+        this.setState({ rx: -(y - 0.5) * 30, ry: (x - 0.5) * 50, mx: x * 100, my: y * 100 });
+      },
+      onLeave: () => this.setState({ rx: -10, ry: 22 }),
+      onBurst: () => {
+        clearTimeout(this.burstTimer);
+        clearTimeout(this.restartTimer);
+        const go = () => {
+          this.setState({ burst: true, techOn: true });
+          this.burstTimer = setTimeout(() => this.setState({ burst: false }), 6900);
+        };
+        if (this.state.burst) { this.setState({ burst: false }); this.restartTimer = setTimeout(go, 40); } else { go(); }
+      }
+    };
+  }
+
+  render() {
+    const v = this.renderVals();
+    return html`<div style="font-family: 'Rubik', sans-serif; color: #F2F3F5; background: #07080B; min-height: 100vh; overflow-x: hidden; ${v.rootVars}">
+
+
+<nav aria-label="ניווט ראשי" style="position: sticky; top: 0; z-index: 30; background: rgba(7,8,11,.88); backdrop-filter: blur(10px); border-bottom: 1px solid #1A1D29">
+<div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="#top" style="font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 20px; color: #F2F3F5; text-decoration: none" dir="ltr">YDT<span class="techflick" style="color: ${v.accent}">.TECH</span></a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; font-size: 15px">
+<a class="navlink" href="#machine">בנו את העסק שלכם</a>
+<a class="navlink" href="#services">מה אני בונה</a>
+<a class="btnmain" href="#contact" style="background: ${v.accent}; color: #07080B; font-weight: 700; padding: 11px 20px; border-radius: 999px; text-decoration: none">בואו נדבר</a>
+</div>
+</div>
+</nav>
+
+
+<section id="top" class="gridbg" onMouseMove=${v.onMove} onMouseLeave=${v.onLeave} style="position: relative; overflow: hidden; padding: 64px 24px 72px">
+<div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; ${v.spot}"></div>
+<div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center">
+<div style="display: inline-flex; align-items: center; gap: 10px; border: 1px solid #2A2E40; border-radius: 999px; padding: 7px 14px; font-size: 14px; color: #C9CDD8; background: rgba(7,8,11,.6)">
+<span class="livedot" style="width: 8px; height: 8px; border-radius: 50%; background: ${v.accent}"></span>
+סטודיו לפיתוח ופתרונות דיגיטליים לעסקים
+</div>
+
+<div style="font-size: clamp(19px, 1.8vw, 24px); font-weight: 500; color: #C9CDD8">אני בונה לעסק שלכם</div>
+<div style="height: 1.2em; overflow: hidden; font-size: clamp(28px, 3.3vw, 44px); font-weight: 700; line-height: 1.2; color: ${v.accent}; letter-spacing: .3px">
+<div style="display: flex; flex-direction: column; align-items: center; transition: transform .7s cubic-bezier(.7,-0.3,.25,1.3); ${v.slotStyle}">
+${v.words.map((w) => html`
+<span style="display: block; height: 1.2em; white-space: nowrap">${w}</span>
+`)}
+</div>
+</div>
+<p style="margin: 0; font-size: clamp(16px, 1.4vw, 18px); line-height: 1.65; color: #A3A8B8; max-width: 600px">מאתר תדמית קטן ועד מערכת לניהול לקוחות ואוטומציות. מאפיינים יחד, אני בונה, והכול עולה לענן.</p>
+
+
+<div style="perspective: 1200px; width: 100%; display: flex; justify-content: center; padding: 26px 0 6px">
+<button type="button" aria-label="YDT – לחצו על האותיות" onClick=${v.onBurst} style="all: unset; cursor: pointer; display: grid; place-items: center; transform-style: preserve-3d; transition: transform .18s ease-out; ${v.sceneStyle}">
+${v.layers.map((layer) => html`
+<span aria-hidden="true" dir="ltr" style="grid-area: 1 / 1; font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: clamp(80px, 12vw, 180px); line-height: 1; letter-spacing: -3px; user-select: none; transition: opacity .4s ease, transform .5s cubic-bezier(.2,1.3,.3,1); ${layer.style}">YDT${v.burst ? html`<span class="neonIn" style="font-size: .42em; letter-spacing: 1px; ${layer.tech}">.TECH</span>` : null}</span>
+`)}
+<span aria-hidden="true" style="grid-area: 1 / 1; position: relative; width: 0; height: 0; transform: translateZ(30px)">
+${v.burst ? html`
+${v.flyers.map((p) => html`
+<span class="flycard" style="display: flex; align-items: center; gap: 8px; background: #12141B; border: 1px solid #2A2E40; color: #E4E6EB; font-family: 'Rubik', sans-serif; font-size: 19px; font-weight: 700; padding: 13px 20px; border-radius: 14px; box-shadow: 0 12px 36px rgba(0,0,0,.45); ${p.style}"><span style="width: 11px; height: 11px; border-radius: 50%; background: ${p.color}"></span>${p.label}</span>
+`)}
+` : null}
+</span>
+</button>
+</div>
+<p style="margin: 0; font-size: 13px; color: #7C8296">הזיזו את העכבר · לחצו על האותיות</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 6px">
+<a class="btnmain" href="#machine" style="background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">בנו את העסק שלכם ↓</a>
+<a href="#contact" style="border: 1px solid #3A3F55; color: #F2F3F5; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">שיחת היכרות</a>
+</div>
+</div>
+</section>
+
+
+<div aria-hidden="true" style="position: relative; height: 140px; overflow: hidden; margin: 6px 0 20px">
+<div style="position: absolute; top: 28px; right: -5%; left: -5%; transform: rotate(-2.5deg); background: ${v.accent}; color: #07080B; padding: 12px 0; overflow: hidden">
+<div class="mq" style="display: flex; width: max-content; gap: 34px; font-family: 'Space Grotesk', sans-serif; font-size: 25px; font-weight: 700; letter-spacing: 2px; white-space: nowrap">
+<span>UX/UI</span><span>✦</span><span>FULL-STACK</span><span>✦</span><span>CLOUD</span><span>✦</span><span>CRM</span><span>✦</span><span>API</span><span>✦</span><span>AUTOMATION</span><span>✦</span><span>SEO</span><span>✦</span><span>E-COMMERCE</span><span>✦</span><span>DATABASE</span><span>✦</span>
+<span>UX/UI</span><span>✦</span><span>FULL-STACK</span><span>✦</span><span>CLOUD</span><span>✦</span><span>CRM</span><span>✦</span><span>API</span><span>✦</span><span>AUTOMATION</span><span>✦</span><span>SEO</span><span>✦</span><span>E-COMMERCE</span><span>✦</span><span>DATABASE</span><span>✦</span>
+</div>
+</div>
+<div style="position: absolute; top: 50px; right: -5%; left: -5%; transform: rotate(2deg); background: #12141B; border-top: 1px solid #2A2E40; border-bottom: 1px solid #2A2E40; padding: 12px 0; overflow: hidden">
+<div class="mqr" style="display: flex; width: max-content; gap: 34px; font-family: 'Space Grotesk', sans-serif; font-size: 25px; font-weight: 600; letter-spacing: 2px; white-space: nowrap; color: #C9CDD8">
+<span>DASHBOARD</span><span>/</span><span>AGILE</span><span>/</span><span>RESPONSIVE</span><span>/</span><span>INTEGRATIONS</span><span>/</span><span>ANALYTICS</span><span>/</span><span>SAAS</span><span>/</span><span>SCALABILITY</span><span>/</span><span>SECURITY</span><span>/</span><span>WORKFLOWS</span><span>/</span>
+<span>DASHBOARD</span><span>/</span><span>AGILE</span><span>/</span><span>RESPONSIVE</span><span>/</span><span>INTEGRATIONS</span><span>/</span><span>ANALYTICS</span><span>/</span><span>SAAS</span><span>/</span><span>SCALABILITY</span><span>/</span><span>SECURITY</span><span>/</span><span>WORKFLOWS</span><span>/</span>
+</div>
+</div>
+</div>
+
+
+<section id="machine" style="padding: 56px 24px 96px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
+<div style="font-size: 14px; font-weight: 700; color: ${v.accent}">הדמיה חיה</div>
+<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">רוצים לראות איך זה ייראה אצלכם? <span style="color: ${v.accent}">בנו את המערכת שלכם עכשיו.</span></h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.65; color: #A3A8B8">סמנו מה העסק שלכם צריך, לחצו על הכפתור – ותראו את המערכת נבנית ועולה לאוויר תוך כמה שניות.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 22px; align-items: stretch">
+
+
+<div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+
+<div style="border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; transition: all .3s ease; ${v.st1}">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 15px; ${v.dot1}">${v.mark1}</span>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">אפיון</strong><span style="font-size: 14px; color: #A3A8B8">מה העסק שלכם צריך?</span></div>
+</div>
+${v.isPick ? html`
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 14px; color: #C9CDD8">סוג העסק</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+${v.bizList.map((b) => html`
+<button type="button" class="need" aria-pressed=${b.on} onClick=${b.pick} style="font-family: 'Rubik', sans-serif; font-size: 14px; padding: 9px 14px; min-height: 44px; border-radius: 999px; cursor: pointer; ${b.style}">${b.label}</button>
+`)}
+</div>
+<div style="font-size: 14px; color: #C9CDD8">מה לבנות? (אפשר כמה)</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+${v.needList.map((n) => html`
+<button type="button" class="need" aria-pressed=${n.on} onClick=${n.toggle} style="display: flex; align-items: center; gap: 10px; font-family: 'Rubik', sans-serif; font-size: 14px; text-align: right; padding: 11px 12px; min-height: 46px; border-radius: 12px; cursor: pointer; ${n.style}">
+<span style="width: 16px; height: 16px; border-radius: 5px; display: grid; place-items: center; flex: none; ${n.box}">${n.on ? html`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#07080B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>` : null}</span>
+${n.label}
+</button>
+`)}
+</div>
+<button type="button" class="btnmain" onClick=${v.onStart} disabled=${v.noneSelected} style="display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'Rubik', sans-serif; font-size: 17px; font-weight: 700; padding: 14px 18px; min-height: 52px; border: none; border-radius: 14px; cursor: pointer; ${v.startStyle}">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg>
+בנה לי את זה
+</button>
+</div>
+` : null}
+</div>
+
+<div style="border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: all .3s ease; ${v.st2}">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 15px; ${v.dot2}">${v.mark2}</span>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">ביצוע</strong><span style="font-size: 14px; color: #A3A8B8">עיצוב, פיתוח וחיבור של הכול</span></div>
+${v.isBuild ? html`<span style="margin-inline-start: auto; font-weight: 800; font-size: 22px; color: ${v.accent}">${v.pct}%</span>` : null}
+</div>
+${v.isBuild ? html`
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="height: 6px; border-radius: 999px; background: #1C2030; overflow: hidden"><div style="height: 100%; border-radius: 999px; background: ${v.accent}; transition: width .1s linear; ${v.barStyle}"></div></div>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 15px; color: #C9CDD8"><span class="spin" style="width: 13px; height: 13px; border: 2px solid #3A3F55; border-top-color: ${v.accent}; border-radius: 50%"></span>${v.logLine}</div>
+</div>
+` : null}
+</div>
+
+<div style="border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; transition: all .3s ease; ${v.st3}">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 15px; ${v.dot3}">${v.mark3}</span>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">עולים לענן</strong><span style="font-size: 14px; color: #A3A8B8">הכול באוויר – ועובד בשבילכם</span></div>
+</div>
+${v.isLive ? html`
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<div style="background: #0B0D12; border: 1px solid #23263A; border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 800; font-size: 22px; color: ${v.accent}">${v.cEvents}</span><span style="font-size: 12px; color: #A3A8B8">פעולות</span></div>
+<div style="background: #0B0D12; border: 1px solid #23263A; border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 800; font-size: 22px; color: #5CE1E6">${v.cLeads}</span><span style="font-size: 12px; color: #A3A8B8">פניות ולקוחות</span></div>
+<div style="background: #0B0D12; border: 1px solid #23263A; border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 800; font-size: 22px; color: #F2A65A">${v.cAuto}</span><span style="font-size: 12px; color: #A3A8B8">יצאו לבד</span></div>
+</div>
+<div style="font-size: 12px; color: #7C8296">* הדמיה להמחשה</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<a class="btnmain" href="#contact" style="flex: 1 1 auto; text-align: center; background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 16px; padding: 13px 18px; border-radius: 12px; text-decoration: none">אני רוצה את זה באמת</a>
+<button type="button" onClick=${v.onReset} style="font-family: 'Rubik', sans-serif; font-size: 15px; padding: 11px 16px; min-height: 46px; border-radius: 12px; background: none; border: 1px solid #3A3F55; color: #F2F3F5; cursor: pointer">↻ בנה שוב</button>
+</div>
+</div>
+` : null}
+</div>
+</div>
+
+
+<div style="flex: 1.7 1 520px; min-width: 0; position: relative; border-radius: 22px; background: #0B0D12; min-height: 560px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; overflow: hidden; transition: border-color .4s ease, box-shadow .6s ease; ${v.boardStyle}">
+
+${v.isPick ? html`
+<div style="flex: 1; border: 1.5px dashed #2A2E40; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 30px">
+<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#3A3F55" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
+<div style="font-size: clamp(20px, 2vw, 26px); font-weight: 700; color: #7C8296">כאן ייבנה העסק שלכם</div>
+<div style="font-size: 15px; color: #6B7186">בחרו מימין ולחצו "בנה לי את זה"</div>
+</div>
+` : null}
+
+${v.isRun ? html`
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; border-radius: 10px; background: ${v.accent}; color: #07080B; display: grid; place-items: center; font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 11px">YDT</span>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 16px">העסק שלכם</strong><span style="font-size: 13px; color: #A3A8B8">${v.bizLabel}</span></div>
+</div>
+<span style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; padding: 7px 12px; border-radius: 999px; ${v.badgeStyle}"><span class="livedot" style="width: 7px; height: 7px; border-radius: 50%; background: currentColor"></span>${v.badge}</span>
+</div>
+<div class="flowline" style="height: 1px; opacity: .6"></div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px">
+
+${v.has.site ? html`
+<div class="mod" style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; ${v.ms.site}">
+<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>אתר</strong><span style="color: ${v.accent}; font-size: 13px">${v.stx.site}</span></div>
+<div style="background: #F6F3EC; border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; gap: 4px"><span style="width: 6px; height: 6px; border-radius: 50%; background: #C9C3B5"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #C9C3B5"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #C9C3B5"></span></div>
+<div style="background: #1F3D35; border-radius: 6px; height: 42px; display: flex; align-items: flex-end; padding: 6px"><span style="background: #F2A65A; width: 40px; height: 9px; border-radius: 999px"></span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px"><span style="background: #FFFFFF; height: 16px; border-radius: 4px"></span><span style="background: #FFFFFF; height: 16px; border-radius: 4px"></span><span style="background: #FFFFFF; height: 16px; border-radius: 4px"></span></div>
+</div>
+</div>
+` : null}
+
+${v.has.shop ? html`
+<div class="mod" style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; ${v.ms.shop}">
+<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>חנות אונליין</strong><span style="color: ${v.accent}; font-size: 13px">${v.stx.shop}</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<div style="background: #1C2030; border-radius: 8px; padding: 6px; display: flex; flex-direction: column; gap: 4px"><span style="height: 28px; border-radius: 5px; background: #F2A65A"></span><span style="height: 5px; width: 70%; border-radius: 3px; background: #3A3F55"></span></div>
+<div style="background: #1C2030; border-radius: 8px; padding: 6px; display: flex; flex-direction: column; gap: 4px"><span style="height: 28px; border-radius: 5px; background: #5CE1E6"></span><span style="height: 5px; width: 70%; border-radius: 3px; background: #3A3F55"></span></div>
+<div style="background: #1C2030; border-radius: 8px; padding: 6px; display: flex; flex-direction: column; gap: 4px"><span style="height: 28px; border-radius: 5px; background: #A78BFA"></span><span style="height: 5px; width: 70%; border-radius: 3px; background: #3A3F55"></span></div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #C9CDD8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"></path><path d="M6 6L5 3H2"></path><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle></svg>סל קניות · תשלום מאובטח</div>
+</div>
+` : null}
+
+${v.has.crm ? html`
+<div class="mod" style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px; ${v.ms.crm}">
+<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>${v.crmTitle}</strong><span style="color: ${v.accent}; font-size: 13px">${v.stx.crm}</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #C9CDD8; border-top: 1px solid #23263A; padding-top: 8px"><span>${v.crmR1}</span><span style="background: ${v.accent}; color: #07080B; padding: 2px 8px; border-radius: 999px; font-weight: 700; font-size: 12px">חדש</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #C9CDD8; border-top: 1px solid #23263A; padding-top: 8px"><span>${v.crmR2}</span><span style="background: #5CE1E6; color: #07080B; padding: 2px 8px; border-radius: 999px; font-weight: 700; font-size: 12px">בטיפול</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #C9CDD8; border-top: 1px solid #23263A; padding-top: 8px"><span>${v.crmR3}</span><span style="background: #F2A65A; color: #07080B; padding: 2px 8px; border-radius: 999px; font-weight: 700; font-size: 12px">מחר</span></div>
+</div>
+` : null}
+
+${v.has.auto ? html`
+<div class="mod" style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; ${v.ms.auto}">
+<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>אוטומציות</strong><span style="color: ${v.accent}; font-size: 13px">${v.stx.auto}</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px">
+<span style="background: #1C2030; border-radius: 8px; padding: 7px 10px">טופס הוגש באתר</span>
+<span style="align-self: center; color: #6B7186; line-height: 1">↓</span>
+<span style="background: #1C2030; border-radius: 8px; padding: 7px 10px">נכנס ל-CRM + משימה</span>
+<span style="align-self: center; color: #6B7186; line-height: 1">↓</span>
+<span style="background: ${v.accent}; color: #07080B; font-weight: 700; border-radius: 8px; padding: 7px 10px">הודעה יוצאת ללקוח</span>
+</div>
+</div>
+` : null}
+
+${v.has.forms ? html`
+<div class="mod" style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px; ${v.ms.forms}">
+<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>טפסים מורכבים</strong><span style="color: ${v.accent}; font-size: 13px">${v.stx.forms}</span></div>
+<div style="display: flex; gap: 4px"><span style="flex: 1; height: 4px; border-radius: 2px; background: ${v.accent}"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: ${v.accent}"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #2A2E40"></span><span style="flex: 1; height: 4px; border-radius: 2px; background: #2A2E40"></span></div>
+<span style="font-size: 12px; color: #A3A8B8">שלב 2 מתוך 4 · שדות מותנים</span>
+<span style="background: #1C2030; border-radius: 6px; height: 20px"></span>
+<span style="background: #1C2030; border-radius: 6px; height: 20px"></span>
+<div style="display: flex; gap: 8px; align-items: center; font-size: 12px; color: #C9CDD8"><span style="width: 13px; height: 13px; border-radius: 4px; background: ${v.accent}"></span>חתימה דיגיטלית · העלאת קבצים</div>
+</div>
+` : null}
+
+${v.has.mail ? html`
+<div class="mod" style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; ${v.ms.mail}">
+<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>מיילים אוטומטיים</strong><span style="color: ${v.accent}; font-size: 13px">${v.stx.mail}</span></div>
+<div style="background: #1C2030; border-radius: 10px; padding: 12px; display: flex; gap: 12px; align-items: center">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 3px; font-size: 13px"><strong>${v.mailSubj}</strong><span style="color: #A3A8B8">נשלח אוטומטית</span></div>
+</div>
+</div>
+` : null}
+
+${v.has.remind ? html`
+<div class="mod" style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; ${v.ms.remind}">
+<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>תזכורות</strong><span style="color: ${v.accent}; font-size: 13px">${v.stx.remind}</span></div>
+<div style="background: #1C2030; border-radius: 10px; padding: 12px; display: flex; gap: 12px; align-items: center">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2A65A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10 21a2 2 0 0 0 4 0"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 3px; font-size: 13px"><strong>מחר 10:00 · פגישה</strong><span style="color: #A3A8B8">הלקוח קיבל תזכורת</span></div>
+</div>
+</div>
+` : null}
+</div>
+
+${v.isLive ? html`
+<div style="position: absolute; top: 74px; left: 16px; z-index: 6; display: flex; align-items: center; gap: 12px; background: #F2F3F5; color: #07080B; padding: 14px 18px 14px 22px; border-radius: 14px; box-shadow: 0 18px 50px rgba(0,0,0,.55); ${v.toastStyle}">
+<span style="width: 40px; height: 40px; border-radius: 50%; background: ${v.accent}; display: grid; place-items: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; flex: none">₪</span>
+<span style="display: flex; flex-direction: column; gap: 2px">
+<strong style="font-size: 17px">${v.dealVerb} <span dir="ltr">${v.dealFmt} ₪</span></strong>
+<span style="font-size: 13px; color: #5C5F68">${v.dealSrc} · עכשיו</span>
+</span>
+</div>
+
+<div style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 16px 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 26px">
+<div style="position: relative; width: 120px; height: 120px; flex: none">
+<svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true">
+<circle cx="60" cy="60" r="50" fill="none" stroke="#23263A" stroke-width="10"></circle>
+<circle cx="60" cy="60" r="50" fill="none" stroke=${v.accent} stroke-width="10" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset=${v.ringOffset} transform="rotate(-90 60 60)" style="transition: stroke-dashoffset .4s ease"></circle>
+</svg>
+<div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center"><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px">${v.goalPct}%</span><span style="font-size: 11px; color: #A3A8B8">מהיעד</span></div>
+</div>
+<div style="flex: 1 1 160px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 14px; color: #A3A8B8">${v.revLabel}</span>
+<span dir="ltr" style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(30px, 3vw, 40px); line-height: 1.1; color: ${v.accent}">₪${v.totalFmt}</span>
+<span style="font-size: 13px; color: #C9CDD8">↑ <span dir="ltr">+₪${v.dealFmt}</span> ${v.lastLabel} · יעד <span dir="ltr">₪${v.goalFmt}</span></span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: flex-end; gap: 6px; height: 74px" aria-hidden="true">
+${v.bars.map((bar) => html`
+<span style="width: 13px; border-radius: 4px 4px 0 0; transition: height .4s ease; ${bar.style}"></span>
+`)}
+</div>
+<span style="font-size: 11px; color: #7C8296; text-align: center">7 ימים אחרונים</span>
+</div>
+</div>
+
+<div style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>מה קורה עכשיו בעסק</strong><span style="color: #7C8296; font-size: 13px">הדמיה</span></div>
+${v.feed.map((f) => html`
+<div style="display: flex; align-items: center; gap: 10px; font-size: 13px; padding: 7px 10px; border-radius: 8px; transition: all .3s ease; ${f.style}">
+<span style="width: 7px; height: 7px; border-radius: 50%; flex: none; background: ${f.color}"></span>
+<span>${f.text}</span>
+<span style="margin-inline-start: auto; font-size: 12px; color: #7C8296; white-space: nowrap">${f.time}</span>
+</div>
+`)}
+</div>
+` : null}
+` : null}
+
+${v.isCount ? html`
+<div style="position: absolute; inset: 0; overflow: hidden; background: rgba(7,8,11,.86); backdrop-filter: blur(4px)">
+<div style="position: absolute; top: 28px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 4px">
+<div style="font-family: 'Unbounded', 'Rubik', sans-serif; font-weight: 900; font-size: clamp(54px, 6vw, 84px); line-height: 1.05; color: ${v.accent}; text-shadow: 0 0 24px ${v.accent}55">${v.countNum}</div>
+<div style="font-family: 'Rubik', sans-serif; font-size: 18px; font-weight: 700; color: #F2F3F5">${v.launchText}</div>
+</div>
+<div aria-hidden="true" style="position: absolute; left: 50%; bottom: 70px; width: 60px; margin-left: -30px; display: flex; flex-direction: column; align-items: center; ${v.rocketStyle}">
+<svg width="60" height="252" viewBox="0 0 60 252" fill="none">
+<defs>
+<linearGradient id="ydtBody" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8C92A0"></stop><stop offset=".32" stop-color="#EEF0F3"></stop><stop offset=".5" stop-color="#FFFFFF"></stop><stop offset=".78" stop-color="#CDD1D8"></stop><stop offset="1" stop-color="#7C8292"></stop></linearGradient>
+<linearGradient id="ydtDark" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0E1014"></stop><stop offset=".45" stop-color="#454A56"></stop><stop offset="1" stop-color="#15171D"></stop></linearGradient>
+<linearGradient id="ydtBell" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2A2E36"></stop><stop offset=".5" stop-color="#9AA0AC"></stop><stop offset="1" stop-color="#22252C"></stop></linearGradient>
+</defs>
+<path d="M30 0 C40 18 44 40 44 64 L16 64 C16 40 20 18 30 0Z" fill="url(#ydtBody)"></path>
+<rect x="16" y="64" width="28" height="60" fill="url(#ydtBody)"></rect>
+<line x1="16" y1="64" x2="44" y2="64" stroke="#A9AEB8" stroke-width=".6"></line>
+<rect x="16" y="124" width="28" height="14" fill="url(#ydtDark)"></rect>
+<rect x="9" y="126" width="7" height="9" rx="1" fill="#3A3F4A"></rect>
+<rect x="44" y="126" width="7" height="9" rx="1" fill="#3A3F4A"></rect>
+<rect x="16" y="138" width="28" height="88" fill="url(#ydtBody)"></rect>
+<line x1="16" y1="100" x2="44" y2="100" stroke="#B5BAC4" stroke-width=".6"></line>
+<line x1="16" y1="190" x2="44" y2="190" stroke="#B5BAC4" stroke-width=".6"></line>
+<text x="30" y="168" text-anchor="middle" transform="rotate(-90 30 168)" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="10" letter-spacing="3" fill="#1C1F26">YDT.TECH</text>
+<rect x="16" y="212" width="28" height="3" fill=${v.accent}></rect>
+<path d="M16 196 L9 232 L16 226Z" fill="url(#ydtDark)"></path>
+<path d="M44 196 L51 232 L44 226Z" fill="url(#ydtDark)"></path>
+<rect x="17" y="226" width="26" height="10" fill="url(#ydtDark)"></rect>
+<path d="M21 236 L18 250 L28 250 L26 236Z" fill="url(#ydtBell)"></path>
+<path d="M34 236 L32 250 L42 250 L39 236Z" fill="url(#ydtBell)"></path>
+</svg>
+<svg class="flame" viewBox="0 0 60 180" preserveAspectRatio="none" style="margin-top: -2px; ${v.flameStyle}">
+<defs>
+<linearGradient id="ydtFlame" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset=".12" stop-color="#FFF4C8"></stop><stop offset=".35" stop-color="#FFC14A"></stop><stop offset=".65" stop-color="#FF7A1A" stop-opacity=".85"></stop><stop offset="1" stop-color="#FF5A14" stop-opacity="0"></stop></linearGradient>
+<linearGradient id="ydtCore" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset=".5" stop-color="#CFE8FF" stop-opacity=".8"></stop><stop offset="1" stop-color="#CFE8FF" stop-opacity="0"></stop></linearGradient>
+</defs>
+<path d="M16 0 L44 0 C50 40 42 110 30 180 C18 110 10 40 16 0Z" fill="url(#ydtFlame)"></path>
+<path d="M22 0 L38 0 C40 25 36 60 30 90 C24 60 20 25 22 0Z" fill="url(#ydtCore)"></path>
+</svg>
+</div>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; height: 160px; transition: transform .8s ease, opacity .8s ease; transform-origin: bottom center; ${v.smokeStyle}">
+<span class="puff" style="left: 50%; --sx: -40px; animation-delay: 0s"></span>
+<span class="puff" style="left: 50%; --sx: 40px; animation-delay: .2s"></span>
+<span class="puff" style="left: 46%; --sx: -110px; animation-delay: .4s"></span>
+<span class="puff" style="left: 54%; --sx: 110px; animation-delay: .6s"></span>
+<span class="puff" style="left: 42%; --sx: -170px; animation-delay: .8s"></span>
+<span class="puff" style="left: 58%; --sx: 170px; animation-delay: 1s"></span>
+<span class="puff" style="left: 50%; --sx: -10px; animation-delay: 1.2s"></span>
+<span class="puff" style="left: 48%; --sx: -70px; animation-delay: 1.4s"></span>
+<span class="puff" style="left: 52%; --sx: 70px; animation-delay: 1.5s"></span>
+<span class="puff" style="left: 38%; --sx: -220px; animation-delay: .3s"></span>
+<span class="puff" style="left: 62%; --sx: 220px; animation-delay: .9s"></span>
+</div>
+<div aria-hidden="true" style="position: absolute; left: 20%; right: 20%; bottom: 0; height: 12px; border-radius: 6px 6px 0 0; background: #2A2E40"></div>
+</div>
+` : null}
+</div>
+</div>
+</div>
+</section>
+
+
+<section id="services" style="padding: 90px 0; border-top: 1px solid #1A1D29">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 24px 32px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 14px; font-weight: 700; color: ${v.accent}">מה אני בונה</div>
+<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">מאתר קטן – ועד מערכת שמנהלת את העסק</h2>
+</div>
+<div style="border-top: 1px solid #23263A">
+${v.services.map((sv) => html`
+<a href="#contact" class="srow" style="display: block; text-decoration: none; color: #F2F3F5; border-bottom: 1px solid #23263A">
+<span class="fill"></span>
+<span style="position: relative; max-width: 1200px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px">
+<span class="snum" style="font-size: 14px; color: ${v.accent}; transition: color .3s ease; min-width: 28px">${sv.num}</span>
+<span style="font-size: clamp(22px, 2.6vw, 32px); font-weight: 800; line-height: 1.2; flex: 0 1 380px">${sv.title}</span>
+<span class="desc" style="flex: 1 1 300px; font-size: 16px; line-height: 1.55">${sv.desc}</span>
+</span>
+</a>
+`)}
+</div>
+</section>
+
+
+<section id="contact" class="gridbg" style="padding: 100px 24px 110px; border-top: 1px solid #1A1D29; overflow: hidden">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center">
+<div style="font-size: clamp(17px, 1.6vw, 21px); color: #C9CDD8">הכול מתחיל בשיחה אחת.</div>
+<div class="outline" style="font-size: clamp(52px, 8vw, 116px); font-weight: 800; line-height: 1; letter-spacing: -1px">בואו נדבר.</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px">
+<a class="btnmain" href="tel:0533144346" style="display: flex; align-items: center; gap: 10px; background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"></path></svg><span dir="ltr">053-314-4346</span></a>
+<a href="mailto:ydt009@gmail.com" style="display: flex; align-items: center; gap: 10px; border: 1px solid #3A3F55; color: #F2F3F5; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><span dir="ltr">ydt009@gmail.com</span></a>
+</div>
+<div style="font-size: 14px; color: #7C8296">הטלפון לשיחות בלבד</div>
+</div>
+</section>
+
+<footer style="border-top: 1px solid #1A1D29; padding: 24px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 13px; color: #7C8296">
+<a href="#top" dir="ltr" style="font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 20px; color: #F2F3F5; text-decoration: none">YDT<span class="techflick" style="color: ${v.accent}">.TECH</span></a>
+<span>© 2026 · אתרים, מערכות ואוטומציות לעסקים</span>
+</div>
+</footer>
+
+</div>`;
+  }
+}
+
+render(html`<${App} />`, document.getElementById('app'));
+</script>
+</body>
+</html>
