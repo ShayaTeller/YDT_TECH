@@ -55,17 +55,121 @@ a{color:#C8F031}a:hover{color:#E2FF7A}
 .outline:hover{background-size:100% 100%;-webkit-text-stroke-color:var(--acc)}
 .card{transition:transform .25s ease,border-color .25s ease}
 .card:hover{transform:translateY(-4px);border-color:var(--acc)}
+.mag{transition:transform .3s cubic-bezier(.2,.8,.2,1),filter .2s ease;will-change:transform}
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.aurora-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.aurora{position:absolute;border-radius:50%;filter:blur(90px);opacity:.2;will-change:transform}
+.a1{width:520px;height:520px;background:var(--acc);top:-180px;right:-140px;animation:drift1 22s ease-in-out infinite alternate}
+.a2{width:460px;height:460px;background:#5CE1E6;bottom:-200px;left:-120px;opacity:.16;animation:drift2 26s ease-in-out infinite alternate}
+.a3{width:380px;height:380px;background:#A78BFA;top:30%;left:38%;opacity:.12;animation:drift3 30s ease-in-out infinite alternate}
+@keyframes drift1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-280px,200px) scale(1.25)}}
+@keyframes drift2{0%{transform:translate(0,0) scale(1.1)}100%{transform:translate(320px,-170px) scale(.9)}}
+@keyframes drift3{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-220px,-130px) scale(1.3)}}
+.field{font-family:'Rubik',sans-serif;font-size:16px;color:#F2F3F5;background:#0B0D12;border:1px solid #2A2E40;border-radius:12px;padding:13px 14px;width:100%;box-sizing:border-box;text-align:right;transition:border-color .2s ease}
+.field::placeholder{color:#6B7186}
+.field:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
 </style>
 </head>
 <body>
 <div id="app"></div>
+<script>
+window.ydtSendForm = function (data) {
+  var payload = Object.assign({}, data, {
+    _subject: 'פנייה חדשה מהאתר YDT.TECH',
+    _template: 'table',
+    _captcha: 'false'
+  });
+  return fetch('https://formsubmit.co/ajax/ydt009@gmail.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function (r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).then(function (j) {
+    if (j && (j.success === false || j.success === 'false')) throw new Error(j.message || 'failed');
+    return j;
+  });
+};
+</script>
 <script type="module">
 import { html, render, Component } from './vendor/preact-htm.module.js';
 class App extends Component {
   state = {
     rx: -10, ry: 22, mx: 50, my: 40, burst: false, techOn: false, tick: 0,
     phase: 'pick', mt: 0, biz: 0,
-    needs: { site: true, shop: false, crm: true, forms: false, auto: false, mail: true, remind: false }
+    needs: { site: true, shop: false, crm: true, forms: false, auto: false, mail: true, remind: false },
+    fName: '', fPhone: '', fEmail: '', fMsg: '', fStatus: 'idle', fError: ''
+  };
+
+  setNet = (el) => { this.netCanvas = el; };
+
+  magnet = (e) => {
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - (r.left + r.width / 2);
+    const y = e.clientY - (r.top + r.height / 2);
+    el.style.transform = 'translate(' + (x * 0.22).toFixed(1) + 'px,' + (y * 0.32).toFixed(1) + 'px)';
+  };
+
+  unmagnet = (e) => { e.currentTarget.style.transform = ''; };
+
+  netStep = () => {
+    const c = this.netCanvas;
+    if (c && c.getContext) {
+      const w = c.clientWidth, h = c.clientHeight;
+      if (w > 0 && h > 0) {
+        const dpr = Math.min(2, window.devicePixelRatio || 1);
+        if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) {
+          c.width = Math.round(w * dpr);
+          c.height = Math.round(h * dpr);
+        }
+        if (!this.pts || this.ptsW !== w) {
+          const count = Math.max(28, Math.min(80, Math.round((w * h) / 17000)));
+          this.pts = [];
+          for (let i = 0; i < count; i++) {
+            this.pts.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35 });
+          }
+          this.ptsW = w;
+        }
+        const ctx = c.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, w, h);
+        const rgb = this.accRGB || '200,240,49';
+        const m = this.netMouse;
+        const pts = this.pts;
+        for (const p of pts) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > w) p.vx *= -1;
+          if (p.y < 0 || p.y > h) p.vy *= -1;
+          if (m) {
+            const dx = m.x - p.x, dy = m.y - p.y, d = Math.hypot(dx, dy);
+            if (d < 200 && d > 50) { p.x += dx * 0.008; p.y += dy * 0.008; }
+          }
+        }
+        ctx.lineWidth = 1;
+        for (let i = 0; i < pts.length; i++) {
+          for (let j = i + 1; j < pts.length; j++) {
+            const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
+            if (d < 130) {
+              ctx.strokeStyle = 'rgba(' + rgb + ',' + ((1 - d / 130) * 0.22).toFixed(3) + ')';
+              ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke();
+            }
+          }
+          if (m) {
+            const d = Math.hypot(pts[i].x - m.x, pts[i].y - m.y);
+            if (d < 200) {
+              ctx.strokeStyle = 'rgba(' + rgb + ',' + ((1 - d / 200) * 0.45).toFixed(3) + ')';
+              ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(m.x, m.y); ctx.stroke();
+            }
+          }
+          ctx.fillStyle = 'rgba(' + rgb + ',0.55)';
+          ctx.beginPath(); ctx.arc(pts[i].x, pts[i].y, 1.7, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    }
+    this.raf = requestAnimationFrame(this.netStep);
   };
 
   componentDidMount() {
@@ -75,16 +179,32 @@ class App extends Component {
       if (st.phase === 'run') u.mt = st.mt + 1;
       this.setState(u);
     }, 100);
+    this.raf = requestAnimationFrame(this.netStep);
+    this.revealTimer = setTimeout(() => {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { els.forEach((el) => el.classList.add('in')); return; }
+      this.io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) { en.target.classList.add('in'); this.io.unobserve(en.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach((el) => this.io.observe(el));
+    }, 60);
   }
 
   componentWillUnmount() {
     clearInterval(this.timer);
     clearTimeout(this.burstTimer);
+    clearTimeout(this.revealTimer);
+    cancelAnimationFrame(this.raf);
+    if (this.io) this.io.disconnect();
   }
 
   renderVals() {
     const accent = this.props.accent ?? '#C8F031';
     const s = this.state;
+    const hx = accent.replace('#', '');
+    if (hx.length === 6) this.accRGB = parseInt(hx.slice(0, 2), 16) + ',' + parseInt(hx.slice(2, 4), 16) + ',' + parseInt(hx.slice(4, 6), 16);
 
     const words = ['אתרי תדמית מתקדמים', 'פלטפורמות E-Commerce', 'מערכות CRM מותאמות אישית', 'Dashboards ניהוליים', 'טפסים דיגיטליים מורכבים', 'אוטומציות עסקיות', 'אינטגרציות API', 'פתרונות מבוססי ענן'];
     const wIdx = Math.floor(s.tick / 22) % words.length;
@@ -108,8 +228,8 @@ class App extends Component {
       { label: 'מיילים אוטומטיים', color: '#A78BFA' }, { label: 'תזכורות', color: '#F2A65A' },
       { label: 'דף נחיתה', color: accent }, { label: 'לוח מודעות', color: '#5CE1E6' },
       { label: 'ניהול לקוחות', color: '#5CE1E6' }, { label: 'סליקה', color: '#F2A65A' },
-      { label: 'טפסים', color: accent }, { label: 'עולה לענן', color: accent },
-      { label: 'מותאם לטלפון', color: '#A78BFA' }, { label: 'דוחות', color: '#5CE1E6' }
+      { label: 'טפסים מורכבים', color: accent }, { label: 'ענן', color: accent },
+      { label: 'התאמה לנייד', color: '#A78BFA' }, { label: 'דוחות', color: '#5CE1E6' }
     ];
     const flyers = FLY.map((f, i) => {
       const ang = (i / FLY.length) * Math.PI * 2 + 0.2;
@@ -123,7 +243,7 @@ class App extends Component {
     const NEEDS = [
       { id: 'site', label: 'אתר תדמית', kind: 'lead', color: accent },
       { id: 'shop', label: 'חנות אונליין', kind: 'lead', color: '#F2A65A' },
-      { id: 'crm', label: 'CRM לקוחות', kind: 'lead', color: '#5CE1E6' },
+      { id: 'crm', label: 'ניהול לקוחות (CRM)', kind: 'lead', color: '#5CE1E6' },
       { id: 'forms', label: 'טפסים מורכבים', kind: 'lead', color: '#5CE1E6' },
       { id: 'auto', label: 'אוטומציות', kind: 'auto', color: '#A78BFA' },
       { id: 'mail', label: 'מיילים אוטומטיים', kind: 'auto', color: '#A78BFA' },
@@ -131,34 +251,34 @@ class App extends Component {
     ];
     const BIZ = ['חנות', 'נותן שירות', 'משרד', 'מסעדה / קייטרינג', 'מוסד / עמותה'];
     const PROFILES = [
-      { verb: 'בוצעה הזמנה ע״ס', rev: 'מכירות החודש', last: 'בהזמנה האחרונה', goal: 100000,
+      { verb: 'בוצעה הזמנה על סך', rev: 'מכירות החודש', last: 'בהזמנה האחרונה', goal: 100000,
         deals: [450, 1250, 320, 890, 2400, 610, 1780, 260, 940, 3100],
         src: ['הזמנה מהאתר', 'לקוח חוזר', 'מבצע סוף שבוע', 'הזמנה מהנייד'],
         crm: ['ניהול לקוחות', 'הזמנה חדשה', 'ממתין למשלוח', 'לקוח חוזר'],
         mail: 'תודה על ההזמנה!',
-        ev: { site: 'גולש השאיר פרטים באתר', shop: 'הזמנה חדשה התקבלה בחנות', crm: 'לקוח חדש נוסף למערכת', forms: 'טופס החזרה מולא ונקלט', auto: 'המלאי עודכן אוטומטית', mail: 'אישור הזמנה יצא ללקוח', remind: 'תזכורת על סל נטוש נשלחה' } },
-      { verb: 'נסגרה עסקה ע״ס', rev: 'הכנסות החודש', last: 'בעסקה האחרונה', goal: 60000,
+        ev: { site: 'גולש השאיר פרטים באתר', shop: 'הזמנה חדשה התקבלה בחנות', crm: 'לקוח חדש נוסף למערכת', forms: 'טופס החזרת מוצר התקבל', auto: 'המלאי עודכן אוטומטית', mail: 'אישור הזמנה נשלח ללקוח', remind: 'תזכורת על סל נטוש נשלחה' } },
+      { verb: 'נסגרה עסקה על סך', rev: 'הכנסות החודש', last: 'בעסקה האחרונה', goal: 60000,
         deals: [1200, 450, 2800, 750, 3500, 600, 1900, 4200, 980, 1500],
         src: ['פגישת ייעוץ', 'חבילת שירות', 'לקוח חדש מהאתר', 'חידוש מנוי'],
-        crm: ['לקוחות ותורים', 'פנייה חדשה', 'תור נקבע', 'לחזור ללקוח'],
+        crm: ['לקוחות ותורים', 'פנייה חדשה', 'תור נקבע', 'חזרה ללקוח'],
         mail: 'אישור קביעת תור',
         ev: { site: 'לקוח קבע תור דרך האתר', shop: 'חבילת שירות נרכשה אונליין', crm: 'פנייה חדשה נכנסה למערכת', forms: 'טופס קליטת לקוח מולא', auto: 'משימת המשך נפתחה לנציג', mail: 'אישור תור נשלח ללקוח', remind: 'תזכורת לתור מחר נשלחה' } },
-      { verb: 'נחתם הסכם ע״ס', rev: 'הכנסות המשרד החודש', last: 'בהסכם האחרון', goal: 250000,
+      { verb: 'נחתם הסכם על סך', rev: 'הכנסות המשרד החודש', last: 'בהסכם האחרון', goal: 250000,
         deals: [8500, 3200, 15000, 4800, 22000, 6400, 11500, 2900, 18000, 7200],
         src: ['הצעת מחיר אושרה', 'ריטיינר חודשי', 'פרויקט חדש', 'לקוח עסקי'],
         crm: ['CRM לקוחות עסקיים', 'ליד עסקי', 'הצעה נשלחה', 'פגישת סגירה'],
         mail: 'הצעת המחיר מצורפת',
-        ev: { site: 'ליד עסקי השאיר פרטים', shop: 'שירות נרכש באתר', crm: 'ליד עסקי נכנס ל-CRM', forms: 'מסמך נחתם דיגיטלית', auto: 'משימה הוקצתה לעובד', mail: 'דו״ח שבועי נשלח למנהל', remind: 'תזכורת לפגישת לקוח נשלחה' } },
-      { verb: 'התקבלה הזמנה ע״ס', rev: 'הכנסות החודש', last: 'בהזמנה האחרונה', goal: 80000,
+        ev: { site: 'לקוח עסקי השאיר פרטים באתר', shop: 'שירות נרכש באתר', crm: 'ליד עסקי נכנס ל-CRM', forms: 'מסמך נחתם דיגיטלית', auto: 'משימה הוקצתה לעובד', mail: 'דו״ח שבועי נשלח למנהל', remind: 'תזכורת לפגישת לקוח נשלחה' } },
+      { verb: 'התקבלה הזמנה על סך', rev: 'הכנסות החודש', last: 'בהזמנה האחרונה', goal: 80000,
         deals: [320, 2800, 180, 540, 4500, 260, 1450, 390, 6200, 210],
         src: ['משלוח', 'הזמנת קייטרינג', 'איסוף עצמי', 'אירוע'],
         crm: ['ניהול הזמנות', 'הזמנה חדשה', 'בהכנה', 'יצא למשלוח'],
         mail: 'ההזמנה שלך בדרך!',
         ev: { site: 'הזמנת שולחן התקבלה באתר', shop: 'הזמנת משלוח חדשה', crm: 'לקוח קבוע הזמין שוב', forms: 'טופס הזמנת קייטרינג מולא', auto: 'ההזמנה הועברה למטבח', mail: 'אישור הזמנה נשלח ללקוח', remind: 'תזכורת לאירוע מחר נשלחה' } },
-      { verb: 'התקבלה תרומה ע״ס', rev: 'תרומות החודש', last: 'בתרומה האחרונה', goal: 50000,
+      { verb: 'התקבלה תרומה על סך', rev: 'תרומות החודש', last: 'בתרומה האחרונה', goal: 50000,
         deals: [180, 1000, 360, 5000, 260, 1800, 540, 3600, 100, 720],
         src: ['תרומה מהאתר', 'הוראת קבע', 'קמפיין', 'תורם חוזר'],
-        crm: ['ניהול תורמים', 'תורם חדש', 'הוראת קבע', 'לשלוח קבלה'],
+        crm: ['ניהול תורמים', 'תורם חדש', 'הוראת קבע', 'הפקת קבלה'],
         mail: 'תודה על תרומתך!',
         ev: { site: 'תורם חדש נרשם באתר', shop: 'כרטיס לאירוע נרכש', crm: 'תורם חדש נכנס למערכת', forms: 'טופס הרשמה מולא ונקלט', auto: 'קבלה על תרומה הופקה אוטומטית', mail: 'מכתב תודה נשלח לתורם', remind: 'תזכורת לאירוע נשלחה' } }
     ];
@@ -190,7 +310,7 @@ class App extends Component {
       ms[n.id] = ready
         ? 'opacity: 1; transform: none;' + (isLive ? ' border-color: ' + accent + '44;' : '')
         : 'opacity: 0; transform: translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg) scale(.6);';
-      stx[n.id] = isLive ? 'פעיל' : (ready ? 'מוכן ✓' : 'בונה…');
+      stx[n.id] = isLive ? 'פעיל' : (ready ? 'מוכן ✓' : 'בבנייה…');
     });
 
     const doneStyle = 'background: #0B0D12; border: 1px solid #23263A;';
@@ -215,7 +335,7 @@ class App extends Component {
         feed.push({
           text: P.ev[n.id],
           color: n.color,
-          time: ago === 0 ? 'עכשיו' : 'לפני ' + (ago * 4 + 1) + ' שנ׳',
+          time: ago === 0 ? 'עכשיו' : 'לפני ' + (ago * 4 + 1) + ' שניות',
           style: ago === 0 ? 'background: ' + accent + '14;' : 'background: transparent; opacity: ' + (1 - ago * 0.18) + ';'
         });
       }
@@ -254,14 +374,18 @@ class App extends Component {
     if (isLive) boardStyle = 'border: 1px solid ' + accent + '; box-shadow: 0 20px 80px ' + accent + '18;';
 
     const services = [
-      { num: '01', title: 'אתרי תדמית', desc: 'הכרטיס הדיגיטלי של העסק – מי אתם ואיך פונים אליכם.' },
-      { num: '02', title: 'חנויות אונליין', desc: 'קטלוג, סל קניות ותשלום מאובטח. מוכרים גם כשסגור.' },
-      { num: '03', title: 'מערכות Web בהתאמה אישית', desc: 'פורטלים, מערכות ניהול ופלטפורמות SaaS – נבנות מאפס סביב תהליכי העבודה של העסק שלכם.' },
-      { num: '04', title: 'CRM לניהול לקוחות', desc: 'כל לקוח וכל פנייה במקום אחד. אף ליד לא הולך לאיבוד.' },
-      { num: '05', title: 'אוטומציות', desc: 'המשימות שחוזרות על עצמן – קורות לבד.' },
-      { num: '06', title: 'מיילים ותזכורות', desc: 'אישורים, תזכורות ומעקב – יוצאים בזמן, כל פעם.' },
+      { num: '01', title: 'אתרי תדמית', desc: 'הכרטיס הדיגיטלי של העסק: מי אתם, מה אתם מציעים ואיך פונים אליכם.' },
+      { num: '02', title: 'חנויות אונליין', desc: 'קטלוג, סל קניות ותשלום מאובטח – מוכרים גם כשהחנות סגורה.' },
+      { num: '03', title: 'מערכות Web בהתאמה אישית', desc: 'פורטלים, מערכות ניהול ופלטפורמות SaaS שנבנות מאפס סביב תהליכי העבודה של העסק.' },
+      { num: '04', title: 'מערכות CRM לניהול לקוחות', desc: 'כל לקוח, כל פנייה וכל עסקה במקום אחד – ואף פנייה לא הולכת לאיבוד.' },
+      { num: '05', title: 'אוטומציות עסקיות', desc: 'משימות שחוזרות על עצמן מתבצעות מעצמן, בלי עבודה ידנית.' },
+      { num: '06', title: 'מיילים ותזכורות אוטומטיים', desc: 'אישורים, תזכורות ומעקב אחר לקוחות – נשלחים בזמן, בכל פעם.' },
       { num: '07', title: 'טפסים דיגיטליים מורכבים', desc: 'טפסים רב־שלביים עם שדות מותנים, חתימה דיגיטלית, העלאת קבצים וחיבור ישיר למערכת.' }
-    ];
+    ].map((sv, i) => Object.assign({}, sv, { delay: 'transition-delay: ' + (i * 70) + 'ms;' }));
+
+    const simSummary = isRun ? (BIZ[s.biz] + ' · ' + selected.map((n) => n.label).join(', ')) : '';
+    const sending = s.fStatus === 'sending';
+    const field = (k) => (e) => this.setState({ [k]: e.target.value, fError: '' });
 
     return {
       accent: accent,
@@ -294,7 +418,7 @@ class App extends Component {
       isPick: isPick, isRun: isRun, isBuild: isBuild, isCount: isCount, isLive: isLive,
       pct: pct, logLine: logLine, barStyle: 'width: ' + pct + '%;',
       countNum: launched ? 'המראה!' : String(Math.max(1, 3 - Math.floor(cdT / 10))),
-      launchText: launched ? 'העסק שלכם עולה לענן' : 'מכינים לשיגור…',
+      launchText: launched ? 'העסק שלכם עולה לענן' : 'מתכוננים לשיגור…',
       rocketStyle: launched ? 'transform: translateY(-1200px); transition: transform 2s cubic-bezier(.6,0,.9,.35);' : 'transform: translateY(0); animation: rumble .09s linear infinite;',
       flameStyle: launched ? 'width: 48px; height: 190px;' : 'width: 30px; height: ' + (24 + Math.min(cdT, 30)) + 'px; opacity: .9;',
       smokeStyle: launched ? 'transform: scale(1.5); opacity: 1;' : 'transform: scale(' + (0.6 + Math.min(cdT, 30) / 60).toFixed(2) + '); opacity: .85;',
@@ -316,13 +440,50 @@ class App extends Component {
 
       services: services,
 
+      setNet: this.setNet,
+      magnet: this.magnet,
+      unmagnet: this.unmagnet,
+
+      fName: s.fName, fPhone: s.fPhone, fEmail: s.fEmail, fMsg: s.fMsg,
+      onName: field('fName'), onPhone: field('fPhone'), onEmail: field('fEmail'), onMsg: field('fMsg'),
+      isSent: s.fStatus === 'sent', notSent: s.fStatus !== 'sent', isSending: sending,
+      submitLabel: sending ? 'שולח…' : 'שליחת הפנייה',
+      hasFormMsg: !!s.fError, formMsg: s.fError,
+      hasSim: !!simSummary, simSummary: simSummary,
+      onSubmit: (e) => {
+        e.preventDefault();
+        const st = this.state;
+        if (st.fStatus === 'sending') return;
+        if (!st.fName.trim() || !st.fPhone.trim()) {
+          this.setState({ fError: 'נא למלא שם ומספר טלפון.' });
+          return;
+        }
+        const data = {
+          'שם': st.fName.trim(),
+          'טלפון': st.fPhone.trim(),
+          'אימייל': st.fEmail.trim() || '—',
+          'הודעה': st.fMsg.trim() || '—'
+        };
+        if (simSummary) data['בחירות מההדמיה'] = simSummary;
+        if (st.fEmail.trim()) data._replyto = st.fEmail.trim();
+        this.setState({ fStatus: 'sending', fError: '' });
+        const send = (typeof window !== 'undefined' && window.ydtSendForm)
+          ? window.ydtSendForm
+          : () => new Promise((resolve) => setTimeout(resolve, 900));
+        Promise.resolve()
+          .then(() => send(data))
+          .then(() => this.setState({ fStatus: 'sent' }))
+          .catch(() => this.setState({ fStatus: 'idle', fError: 'השליחה נכשלה. נסו שוב, או התקשרו: 053-314-4346.' }));
+      },
+
       onMove: (e) => {
         const r = e.currentTarget.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width;
         const y = (e.clientY - r.top) / r.height;
+        this.netMouse = { x: e.clientX - r.left, y: e.clientY - r.top };
         this.setState({ rx: -(y - 0.5) * 30, ry: (x - 0.5) * 50, mx: x * 100, my: y * 100 });
       },
-      onLeave: () => this.setState({ rx: -10, ry: 22 }),
+      onLeave: () => { this.netMouse = null; this.setState({ rx: -10, ry: 22 }); },
       onBurst: () => {
         clearTimeout(this.burstTimer);
         clearTimeout(this.restartTimer);
@@ -344,15 +505,17 @@ class App extends Component {
 <div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
 <a href="#top" style="font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 20px; color: #F2F3F5; text-decoration: none" dir="ltr">YDT<span class="techflick" style="color: ${v.accent}">.TECH</span></a>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; font-size: 15px">
-<a class="navlink" href="#machine">בנו את העסק שלכם</a>
-<a class="navlink" href="#services">מה אני בונה</a>
-<a class="btnmain" href="#contact" style="background: ${v.accent}; color: #07080B; font-weight: 700; padding: 11px 20px; border-radius: 999px; text-decoration: none">בואו נדבר</a>
+<a class="navlink" href="#machine">הדמיה חיה</a>
+<a class="navlink" href="#services">שירותים</a>
+<a class="btnmain mag" href="#contact" onMouseMove=${v.magnet} onMouseLeave=${v.unmagnet} style="background: ${v.accent}; color: #07080B; font-weight: 700; padding: 11px 20px; border-radius: 999px; text-decoration: none">בואו נדבר</a>
 </div>
 </div>
 </nav>
 
 
 <section id="top" class="gridbg" onMouseMove=${v.onMove} onMouseLeave=${v.onLeave} style="position: relative; overflow: hidden; padding: 64px 24px 72px">
+<div class="aurora-wrap" aria-hidden="true"><span class="aurora a1"></span><span class="aurora a2"></span><span class="aurora a3"></span></div>
+<canvas ref=${v.setNet} aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"></canvas>
 <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; ${v.spot}"></div>
 <div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center">
 <div style="display: inline-flex; align-items: center; gap: 10px; border: 1px solid #2A2E40; border-radius: 999px; padding: 7px 14px; font-size: 14px; color: #C9CDD8; background: rgba(7,8,11,.6)">
@@ -368,7 +531,7 @@ ${v.words.map((w) => html`
 `)}
 </div>
 </div>
-<p style="margin: 0; font-size: clamp(16px, 1.4vw, 18px); line-height: 1.65; color: #A3A8B8; max-width: 600px">מאתר תדמית קטן ועד מערכת לניהול לקוחות ואוטומציות. מאפיינים יחד, אני בונה, והכול עולה לענן.</p>
+<p style="margin: 0; font-size: clamp(16px, 1.4vw, 18px); line-height: 1.65; color: #A3A8B8; max-width: 620px">מאתר תדמית ועד מערכת מלאה לניהול לקוחות ואוטומציות: מאפיינים יחד, אני מפתח, והכול עולה לענן.</p>
 
 
 <div style="perspective: 1200px; width: 100%; display: flex; justify-content: center; padding: 26px 0 6px">
@@ -387,8 +550,8 @@ ${v.flyers.map((p) => html`
 </div>
 <p style="margin: 0; font-size: 13px; color: #7C8296">הזיזו את העכבר · לחצו על האותיות</p>
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 6px">
-<a class="btnmain" href="#machine" style="background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">בנו את העסק שלכם ↓</a>
-<a href="#contact" style="border: 1px solid #3A3F55; color: #F2F3F5; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">שיחת היכרות</a>
+<a class="btnmain mag" href="#machine" onMouseMove=${v.magnet} onMouseLeave=${v.unmagnet} style="background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">בנו מערכת בהדמיה ↓</a>
+<a class="mag" href="#contact" onMouseMove=${v.magnet} onMouseLeave=${v.unmagnet} style="border: 1px solid #3A3F55; background: rgba(7,8,11,.5); color: #F2F3F5; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none">שיחת היכרות</a>
 </div>
 </div>
 </section>
@@ -410,15 +573,16 @@ ${v.flyers.map((p) => html`
 </div>
 
 
-<section id="machine" style="padding: 56px 24px 96px">
-<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px">
-<div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
+<section id="machine" style="position: relative; padding: 56px 24px 96px">
+<div class="aurora-wrap" aria-hidden="true"><span class="aurora a2" style="top: 10%; bottom: auto"></span><span class="aurora a3" style="top: 55%"></span></div>
+<div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px">
+<div class="reveal" style="display: flex; flex-direction: column; gap: 12px; max-width: 760px">
 <div style="font-size: 14px; font-weight: 700; color: ${v.accent}">הדמיה חיה</div>
 <h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">רוצים לראות איך זה ייראה אצלכם? <span style="color: ${v.accent}">בנו את המערכת שלכם עכשיו.</span></h2>
 <p style="margin: 0; font-size: 17px; line-height: 1.65; color: #A3A8B8">סמנו מה העסק שלכם צריך, לחצו על הכפתור – ותראו את המערכת נבנית ועולה לאוויר תוך כמה שניות.</p>
 </div>
 
-<div style="display: flex; flex-wrap: wrap; gap: 22px; align-items: stretch">
+<div class="reveal" style="display: flex; flex-wrap: wrap; gap: 22px; align-items: stretch">
 
 
 <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
@@ -436,7 +600,7 @@ ${v.bizList.map((b) => html`
 <button type="button" class="need" aria-pressed=${b.on} onClick=${b.pick} style="font-family: 'Rubik', sans-serif; font-size: 14px; padding: 9px 14px; min-height: 44px; border-radius: 999px; cursor: pointer; ${b.style}">${b.label}</button>
 `)}
 </div>
-<div style="font-size: 14px; color: #C9CDD8">מה לבנות? (אפשר כמה)</div>
+<div style="font-size: 14px; color: #C9CDD8">מה לבנות? (אפשר לבחור כמה)</div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
 ${v.needList.map((n) => html`
 <button type="button" class="need" aria-pressed=${n.on} onClick=${n.toggle} style="display: flex; align-items: center; gap: 10px; font-family: 'Rubik', sans-serif; font-size: 14px; text-align: right; padding: 11px 12px; min-height: 46px; border-radius: 12px; cursor: pointer; ${n.style}">
@@ -445,9 +609,9 @@ ${n.label}
 </button>
 `)}
 </div>
-<button type="button" class="btnmain" onClick=${v.onStart} disabled=${v.noneSelected} style="display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'Rubik', sans-serif; font-size: 17px; font-weight: 700; padding: 14px 18px; min-height: 52px; border: none; border-radius: 14px; cursor: pointer; ${v.startStyle}">
+<button type="button" class="btnmain mag" onClick=${v.onStart} onMouseMove=${v.magnet} onMouseLeave=${v.unmagnet} disabled=${v.noneSelected} style="display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'Rubik', sans-serif; font-size: 17px; font-weight: 700; padding: 14px 18px; min-height: 52px; border: none; border-radius: 14px; cursor: pointer; ${v.startStyle}">
 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg>
-בנה לי את זה
+בנו את המערכת
 </button>
 </div>
 ` : null}
@@ -456,7 +620,7 @@ ${n.label}
 <div style="border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: all .3s ease; ${v.st2}">
 <div style="display: flex; align-items: center; gap: 12px">
 <span style="width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 15px; ${v.dot2}">${v.mark2}</span>
-<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">ביצוע</strong><span style="font-size: 14px; color: #A3A8B8">עיצוב, פיתוח וחיבור של הכול</span></div>
+<div style="display: flex; flex-direction: column"><strong style="font-size: 18px">ביצוע</strong><span style="font-size: 14px; color: #A3A8B8">עיצוב, פיתוח וחיבור כל הרכיבים</span></div>
 ${v.isBuild ? html`<span style="margin-inline-start: auto; font-weight: 800; font-size: 22px; color: ${v.accent}">${v.pct}%</span>` : null}
 </div>
 ${v.isBuild ? html`
@@ -477,12 +641,12 @@ ${v.isLive ? html`
 <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
 <div style="background: #0B0D12; border: 1px solid #23263A; border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 800; font-size: 22px; color: ${v.accent}">${v.cEvents}</span><span style="font-size: 12px; color: #A3A8B8">פעולות</span></div>
 <div style="background: #0B0D12; border: 1px solid #23263A; border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 800; font-size: 22px; color: #5CE1E6">${v.cLeads}</span><span style="font-size: 12px; color: #A3A8B8">פניות ולקוחות</span></div>
-<div style="background: #0B0D12; border: 1px solid #23263A; border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 800; font-size: 22px; color: #F2A65A">${v.cAuto}</span><span style="font-size: 12px; color: #A3A8B8">יצאו לבד</span></div>
+<div style="background: #0B0D12; border: 1px solid #23263A; border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 800; font-size: 22px; color: #F2A65A">${v.cAuto}</span><span style="font-size: 12px; color: #A3A8B8">נשלחו אוטומטית</span></div>
 </div>
-<div style="font-size: 12px; color: #7C8296">* הדמיה להמחשה</div>
+<div style="font-size: 12px; color: #7C8296">* הנתונים להמחשה בלבד</div>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
-<a class="btnmain" href="#contact" style="flex: 1 1 auto; text-align: center; background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 16px; padding: 13px 18px; border-radius: 12px; text-decoration: none">אני רוצה את זה באמת</a>
-<button type="button" onClick=${v.onReset} style="font-family: 'Rubik', sans-serif; font-size: 15px; padding: 11px 16px; min-height: 46px; border-radius: 12px; background: none; border: 1px solid #3A3F55; color: #F2F3F5; cursor: pointer">↻ בנה שוב</button>
+<a class="btnmain mag" href="#contact" onMouseMove=${v.magnet} onMouseLeave=${v.unmagnet} style="flex: 1 1 auto; text-align: center; background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 16px; padding: 13px 18px; border-radius: 12px; text-decoration: none">אני רוצה מערכת כזאת</a>
+<button type="button" onClick=${v.onReset} style="font-family: 'Rubik', sans-serif; font-size: 15px; padding: 11px 16px; min-height: 46px; border-radius: 12px; background: none; border: 1px solid #3A3F55; color: #F2F3F5; cursor: pointer">↻ בנו מחדש</button>
 </div>
 </div>
 ` : null}
@@ -496,7 +660,7 @@ ${v.isPick ? html`
 <div style="flex: 1; border: 1.5px dashed #2A2E40; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 30px">
 <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#3A3F55" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
 <div style="font-size: clamp(20px, 2vw, 26px); font-weight: 700; color: #7C8296">כאן ייבנה העסק שלכם</div>
-<div style="font-size: 15px; color: #6B7186">בחרו מימין ולחצו "בנה לי את זה"</div>
+<div style="font-size: 15px; color: #6B7186">בחרו מימין ולחצו על „בנו את המערכת”</div>
 </div>
 ` : null}
 
@@ -617,12 +781,12 @@ ${v.bars.map((bar) => html`
 <span style="width: 13px; border-radius: 4px 4px 0 0; transition: height .4s ease; ${bar.style}"></span>
 `)}
 </div>
-<span style="font-size: 11px; color: #7C8296; text-align: center">7 ימים אחרונים</span>
+<span style="font-size: 11px; color: #7C8296; text-align: center">שבעת הימים האחרונים</span>
 </div>
 </div>
 
 <div style="background: #12141B; border: 1px solid #23263A; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 6px">
-<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>מה קורה עכשיו בעסק</strong><span style="color: #7C8296; font-size: 13px">הדמיה</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 14px"><strong>פעילות בזמן אמת</strong><span style="color: #7C8296; font-size: 13px">הדמיה</span></div>
 ${v.feed.map((f) => html`
 <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; padding: 7px 10px; border-radius: 8px; transition: all .3s ease; ${f.style}">
 <span style="width: 7px; height: 7px; border-radius: 50%; flex: none; background: ${f.color}"></span>
@@ -696,15 +860,15 @@ ${v.isCount ? html`
 
 
 <section id="services" style="padding: 90px 0; border-top: 1px solid #1A1D29">
-<div style="max-width: 1200px; margin: 0 auto; padding: 0 24px 32px; display: flex; flex-direction: column; gap: 12px">
-<div style="font-size: 14px; font-weight: 700; color: ${v.accent}">מה אני בונה</div>
-<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">מאתר קטן – ועד מערכת שמנהלת את העסק</h2>
+<div class="reveal" style="max-width: 1200px; margin: 0 auto; padding: 0 24px 32px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 14px; font-weight: 700; color: ${v.accent}">שירותים</div>
+<h2 style="margin: 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; font-weight: 800">מאתר תדמית ועד מערכת שמנהלת את העסק כולו</h2>
 </div>
 <div style="border-top: 1px solid #23263A">
 ${v.services.map((sv) => html`
 <a href="#contact" class="srow" style="display: block; text-decoration: none; color: #F2F3F5; border-bottom: 1px solid #23263A">
 <span class="fill"></span>
-<span style="position: relative; max-width: 1200px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px">
+<span class="reveal" style="position: relative; max-width: 1200px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; ${sv.delay}">
 <span class="snum" style="font-size: 14px; color: ${v.accent}; transition: color .3s ease; min-width: 28px">${sv.num}</span>
 <span style="font-size: clamp(22px, 2.6vw, 32px); font-weight: 800; line-height: 1.2; flex: 0 1 380px">${sv.title}</span>
 <span class="desc" style="flex: 1 1 300px; font-size: 16px; line-height: 1.55">${sv.desc}</span>
@@ -715,15 +879,51 @@ ${v.services.map((sv) => html`
 </section>
 
 
-<section id="contact" class="gridbg" style="padding: 100px 24px 110px; border-top: 1px solid #1A1D29; overflow: hidden">
-<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center">
-<div style="font-size: clamp(17px, 1.6vw, 21px); color: #C9CDD8">הכול מתחיל בשיחה אחת.</div>
-<div class="outline" style="font-size: clamp(52px, 8vw, 116px); font-weight: 800; line-height: 1; letter-spacing: -1px">בואו נדבר.</div>
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px">
-<a class="btnmain" href="tel:0533144346" style="display: flex; align-items: center; gap: 10px; background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"></path></svg><span dir="ltr">053-314-4346</span></a>
-<a href="mailto:ydt009@gmail.com" style="display: flex; align-items: center; gap: 10px; border: 1px solid #3A3F55; color: #F2F3F5; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><span dir="ltr">ydt009@gmail.com</span></a>
+<section id="contact" class="gridbg" style="position: relative; padding: 100px 24px 110px; border-top: 1px solid #1A1D29; overflow: hidden">
+<div class="aurora-wrap" aria-hidden="true"><span class="aurora a1" style="top: auto; bottom: -220px; right: 10%"></span><span class="aurora a2" style="bottom: auto; top: -160px"></span></div>
+<div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center">
+<div class="reveal" style="font-size: clamp(17px, 1.6vw, 21px); color: #C9CDD8">הכול מתחיל בשיחה אחת.</div>
+<div class="reveal"><div class="outline" style="font-size: clamp(52px, 8vw, 116px); font-weight: 800; line-height: 1; letter-spacing: -1px">בואו נדבר.</div></div>
+
+<div class="reveal" style="width: 100%; max-width: 640px; background: rgba(18,20,27,.85); border: 1px solid #23263A; border-radius: 22px; padding: clamp(20px, 3vw, 32px); box-sizing: border-box; text-align: right; backdrop-filter: blur(8px)">
+${v.isSent ? html`
+<div style="display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; padding: 20px 0">
+<span style="width: 56px; height: 56px; border-radius: 50%; background: ${v.accent}; display: grid; place-items: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#07080B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></span>
+<strong style="font-size: 22px">תודה, הפנייה התקבלה!</strong>
+<span style="font-size: 16px; color: #A3A8B8; line-height: 1.6">אחזור אליכם בהקדם האפשרי.</span>
 </div>
-<div style="font-size: 14px; color: #7C8296">הטלפון לשיחות בלבד</div>
+` : null}
+${v.notSent ? html`
+<form onSubmit=${v.onSubmit} style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 4px">
+<strong style="font-size: 20px">השאירו פרטים ואחזור אליכם</strong>
+<span style="font-size: 14px; color: #A3A8B8">הפנייה תגיע אליי ישירות למייל.</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="f-name" style="font-size: 14px; color: #C9CDD8">שם מלא *</label><input id="f-name" class="field" type="text" autocomplete="name" value=${v.fName} onInput=${v.onName} onChange=${v.onName} placeholder="ישראל ישראלי" /></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="f-phone" style="font-size: 14px; color: #C9CDD8">טלפון *</label><input id="f-phone" class="field" type="tel" autocomplete="tel" dir="ltr" value=${v.fPhone} onInput=${v.onPhone} onChange=${v.onPhone} placeholder="050-0000000" /></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="f-email" style="font-size: 14px; color: #C9CDD8">אימייל</label><input id="f-email" class="field" type="email" autocomplete="email" dir="ltr" value=${v.fEmail} onInput=${v.onEmail} onChange=${v.onEmail} placeholder="name@example.com" /></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="f-msg" style="font-size: 14px; color: #C9CDD8">במה אוכל לעזור?</label><textarea id="f-msg" class="field" rows="4" value=${v.fMsg} onInput=${v.onMsg} onChange=${v.onMsg} placeholder="ספרו בקצרה על העסק ועל מה שאתם צריכים" style="resize: vertical"></textarea></div>
+${v.hasSim ? html`
+<div style="font-size: 13px; color: #A3A8B8; background: #0B0D12; border: 1px dashed #2A2E40; border-radius: 10px; padding: 10px 12px; line-height: 1.6">יצורפו לפנייה גם הבחירות שלכם מההדמיה: ${v.simSummary}</div>
+` : null}
+${v.hasFormMsg ? html`
+<div role="alert" style="font-size: 14px; color: #F2A65A">${v.formMsg}</div>
+` : null}
+<button type="submit" class="btnmain mag" onMouseMove=${v.magnet} onMouseLeave=${v.unmagnet} disabled=${v.isSending} style="font-family: 'Rubik', sans-serif; font-size: 17px; font-weight: 700; padding: 15px 20px; min-height: 52px; border: none; border-radius: 14px; cursor: pointer; background: ${v.accent}; color: #07080B">${v.submitLabel}</button>
+</form>
+` : null}
+</div>
+
+<div class="reveal" style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+<div style="font-size: 15px; color: #A3A8B8">או צרו קשר ישירות:</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px">
+<a class="btnmain mag" href="tel:0533144346" onMouseMove=${v.magnet} onMouseLeave=${v.unmagnet} style="display: flex; align-items: center; gap: 10px; background: ${v.accent}; color: #07080B; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"></path></svg><span dir="ltr">053-314-4346</span></a>
+<a class="mag" href="mailto:ydt009@gmail.com" onMouseMove=${v.magnet} onMouseLeave=${v.unmagnet} style="display: flex; align-items: center; gap: 10px; border: 1px solid #3A3F55; color: #F2F3F5; font-size: 17px; padding: 15px 28px; border-radius: 999px; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><span dir="ltr">ydt009@gmail.com</span></a>
+</div>
+<div style="font-size: 14px; color: #7C8296">הטלפון מיועד לשיחות בלבד</div>
+</div>
 </div>
 </section>
 
