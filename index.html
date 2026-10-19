@@ -24,10 +24,10 @@ a{color:#C8F031}a:hover{color:#E2FF7A}
 @keyframes flicker{0%,100%{transform:scaleY(1) scaleX(1)}50%{transform:scaleY(1.3) scaleX(.9)}}
 .flame{transform-origin:top center;animation:flicker .11s ease-in-out infinite}
 @keyframes rumble{0%,100%{translate:0 0}25%{translate:1.5px 0}75%{translate:-1.5px 0}}
-@keyframes techflick{0%{opacity:1}0.15%{opacity:.15}0.3%{opacity:1}0.45%{opacity:.05}0.55%{opacity:.9}0.7%{opacity:.25}0.85%{opacity:1}1.05%{opacity:.4}1.2%{opacity:1}1.35%{opacity:.6}1.5%,100%{opacity:1}}
+@keyframes techflick{0%{opacity:1}1.35%{opacity:.15}2.7%{opacity:1}4.05%{opacity:.05}4.95%{opacity:.9}6.3%{opacity:.25}7.65%{opacity:1}9.45%{opacity:.4}10.8%{opacity:1}12.15%{opacity:.6}13.5%,100%{opacity:1}}
 @keyframes neonIn{0%{opacity:0;max-width:0;filter:blur(0);animation-timing-function:cubic-bezier(.25,.8,.3,1)}2%{opacity:1}3.5%{opacity:.1}5%{opacity:1}6.5%{opacity:.25}8%{opacity:.9}9.5%{opacity:.4}14%{opacity:1;max-width:6em;filter:blur(0);transform:scale(1)}50%{opacity:1;max-width:6em;filter:blur(0);transform:scale(1);animation-timing-function:cubic-bezier(.45,0,.25,1)}100%{opacity:0;max-width:0;filter:blur(10px);transform:scale(1.2)}}
 .neonIn{display:inline-block;vertical-align:baseline;white-space:nowrap;transform-origin:left center;animation:neonIn 6.5s linear both}
-.techflick{display:inline-block;animation:techflick 90s linear 4s infinite}
+.techflick{display:inline-block;animation:techflick 10s linear 2s infinite}
 .flycard{position:absolute;left:0;top:0;white-space:nowrap;opacity:0;animation:fly 6.5s cubic-bezier(.3,.1,.4,1) forwards}
 .chip{animation:floaty 5s ease-in-out infinite}
 .chip2{animation:floaty 6.5s ease-in-out infinite}
