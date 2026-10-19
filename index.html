@@ -466,14 +466,6 @@ class App extends Component {
 
 <section id="top" class="gridbg" onMouseMove=${v.onMove} onMouseLeave=${v.onLeave} style="position: relative; overflow: hidden; padding: 64px 24px 72px">
 <div class="aurora-wrap" aria-hidden="true"><span class="aurora a1"></span><span class="aurora a2"></span><span class="aurora a3"></span></div>
-<div class="pulses" aria-hidden="true">
-<span class="pulse h" style="top: 128px; animation-duration: 9s; animation-delay: 0s"></span>
-<span class="pulse h" style="top: 384px; animation-duration: 12s; animation-delay: 3.5s"></span>
-<span class="pulse h" style="top: 576px; animation-duration: 10s; animation-delay: 6s"></span>
-<span class="pulse v" style="left: 192px; animation-duration: 8s; animation-delay: 1.5s"></span>
-<span class="pulse v" style="left: 768px; animation-duration: 11s; animation-delay: 5s"></span>
-<span class="pulse v" style="left: 1152px; animation-duration: 9.5s; animation-delay: 2.5s"></span>
-</div>
 <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; ${v.spot}"></div>
 <div style="position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center">
 <div style="display: inline-flex; align-items: center; gap: 10px; border: 1px solid #2A2E40; border-radius: 999px; padding: 7px 14px; font-size: 14px; color: #C9CDD8; background: rgba(7,8,11,.6)">
@@ -500,7 +492,7 @@ ${v.layers.map((layer) => html`
 <span aria-hidden="true" style="grid-area: 1 / 1; position: relative; width: 0; height: 0; transform: translateZ(30px)">
 ${v.burst ? html`
 ${v.flyers.map((p) => html`
-<span class="flycard" style="display: flex; align-items: center; gap: 8px; background: #12141B; border: 1px solid #2A2E40; color: #E4E6EB; font-family: 'Rubik', sans-serif; font-size: 19px; font-weight: 700; padding: 13px 20px; border-radius: 14px; box-shadow: 0 12px 36px rgba(0,0,0,.45); ${p.style}"><span style="width: 11px; height: 11px; border-radius: 50%; background: ${p.color}"></span>${p.label}</span>
+<span class="flycard" style="display: flex; align-items: center; gap: 8px; background: #12141B; border: 1px solid #2A2E40; color: #E4E6EB; font-family: 'Rubik', sans-serif; font-size: 26px; font-weight: 700; padding: 16px 26px; border-radius: 16px; border-width: 1.5px; box-shadow: 0 14px 40px rgba(0,0,0,.5); ${p.style}"><span style="width: 14px; height: 14px; border-radius: 50%; background: ${p.color}"></span>${p.label}</span>
 `)}
 ` : null}
 </span>
