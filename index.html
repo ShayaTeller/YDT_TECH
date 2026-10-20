@@ -102,6 +102,7 @@ a{color:#C8F031}a:hover{color:#E2FF7A}
 </head>
 <body>
 <div id="app"></div>
+<script src="./tracker.js"></script>
 <script>
 window.ydtSendForm = function (data) {
   var payload = Object.assign({}, data, {
@@ -389,7 +390,11 @@ class App extends Component {
       })),
       noneSelected: noneSelected,
       startStyle: noneSelected ? 'background: #1C2030; color: #6B7186; cursor: not-allowed;' : 'background: ' + accent + '; color: #07080B;',
-      onStart: () => { if (!noneSelected) this.setState({ phase: 'run', mt: 0 }); },
+      onStart: () => {
+        if (noneSelected) return;
+        this.setState({ phase: 'run', mt: 0 });
+        if (typeof window !== 'undefined' && window.ydtTrack) window.ydtTrack('הפעלת הדמיה', BIZ[s.biz] + ' · ' + selected.map((n) => n.label).join(', '));
+      },
       onReset: () => this.setState({ phase: 'pick', mt: 0 }),
 
       isPick: isPick, isRun: isRun, isBuild: isBuild, isCount: isCount, isLive: isLive,
@@ -442,6 +447,7 @@ class App extends Component {
         if (simSummary) data['בחירות מההדמיה'] = simSummary;
         if (st.fEmail.trim()) data._replyto = st.fEmail.trim();
         this.setState({ fStatus: 'sent', fErr: {}, fError: '' });
+        if (typeof window !== 'undefined' && window.ydtTrack) window.ydtTrack('שליחת טופס פנייה', data['שם'] + ' · ' + data['טלפון']);
         const send = (typeof window !== 'undefined' && window.ydtSendForm) ? window.ydtSendForm : null;
         if (send) { try { Promise.resolve(send(data)).catch(() => {}); } catch (err) { /* ignore */ } }
       },
@@ -967,7 +973,7 @@ ${v.hasFormMsg ? html`
 <footer style="border-top: 1px solid #1A1D29; padding: 24px">
 <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 13px; color: #7C8296">
 <a href="#top" dir="ltr" style="font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 20px; color: #F2F3F5; text-decoration: none">YDT<span class="techflick" style="color: ${v.accent}">.TECH</span></a>
-<span>© 2026 · אתרים, מערכות ואוטומציות לעסקים</span>
+<span style="display: flex; flex-direction: column; gap: 4px"><span>© 2026 · אתרים, מערכות ואוטומציות לעסקים</span><span style="font-size: 12px; color: #5C6275">האתר משתמש בכלי מדידה אנונימיים לשיפור חוויית הגלישה.</span></span>
 </div>
 </footer>
 
