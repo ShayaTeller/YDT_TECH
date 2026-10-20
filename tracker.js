@@ -1,7 +1,7 @@
 /* YDT.TECH – מדידת כניסות ולחיצות (נשלח לגוגל שיטס) */
 (function () {
   // כתובת ה-Web app של Apps Script (מסתיימת ב-/exec). ריק = המדידה כבויה.
-  var LOG_URL = '';
+  var LOG_URL = 'https://script.google.com/macros/s/AKfycbzBNcQXP4x-ZrisZK9GiMl7nmaTpB8qJw6dbk6CA0wj2Xgv-ia8ja0bYMd3jvK2daHphA/exec';
 
   var q = location.search;
   try {
